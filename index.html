@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Almacén · Fórmulas dinámicas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f2f2f7;
+      color: #1c1c1e;
+      padding-bottom: 20px;
+      -webkit-font-smoothing: antialiased;
+    }
+    .status-bar {
+      background: #f2f2f7;
+      padding: 12px 20px 6px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 15px;
+      font-weight: 600;
+      color: #1c1c1e;
+      border-bottom: 1px solid #c6c6c8;
+    }
+    .app-header { padding: 16px 20px 8px; }
+    .app-header h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.5px; color: #1c1c1e; }
+    .app-container { max-width: 500px; margin: 0 auto; background: #f2f2f7; min-height: 100vh; }
+    .tab-bar {
+      display: flex;
+      margin: 12px 20px 18px;
+      background: #e5e5ea;
+      border-radius: 30px;
+      padding: 4px;
+    }
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 10px 0;
+      font-weight: 600;
+      font-size: 16px;
+      color: #3a3a3c;
+      border-radius: 26px;
+      transition: all 0.2s;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+    }
+    .tab.active { background: #ffffff; color: #007aff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .tab i { margin-right: 6px; }
+    .section { display: none; padding: 0 20px 20px; }
+    .section.active { display: block; }
+    .card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+      border: 1px solid #e9e9ef;
+    }
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .card-header h3 { font-size: 18px; font-weight: 600; color: #1c1c1e; }
+    .badge { background: #007aff; color: white; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 500; }
+    .product-list { list-style: none; }
+    .product-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid #f0f0f3;
+    }
+    .product-item:last-child { border-bottom: none; }
+    .product-info { flex: 1; }
+    .product-name { font-weight: 600; font-size: 17px; margin-bottom: 4px; color: #1c1c1e; }
+    .product-stock { font-size: 20px; font-weight: 700; color: #1c1c1e; }
+    .product-unit { font-size: 15px; font-weight: 400; color: #8e8e93; margin-left: 4px; }
+    .product-actions { display: flex; gap: 12px; }
+    .icon-btn {
+      background: #f2f2f7;
+      border: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #007aff;
+      font-size: 20px;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .icon-btn:active { background: #e3e3e8; transform: scale(0.96); }
+    .icon-btn.danger { color: #ff3b30; }
+    .quick-form { display: flex; gap: 8px; margin-top: 16px; align-items: center; }
+    .input-field {
+      flex: 1;
+      background: #f8f8fc;
+      border: 1px solid #d9d9e3;
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 16px;
+      font-family: inherit;
+      outline: none;
+      transition: border 0.2s;
+    }
+    .input-field:focus { border-color: #007aff; }
+    .select-unit {
+      background: #f8f8fc;
+      border: 1px solid #d9d9e3;
+      border-radius: 12px;
+      padding: 14px 12px;
+      font-size: 16px;
+      font-family: inherit;
+      outline: none;
+    }
+    .btn {
+      background: #007aff;
+      color: white;
+      border: none;
+      padding: 14px 20px;
+      border-radius: 14px;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 2px 8px rgba(0,122,255,0.2);
+      white-space: nowrap;
+    }
+    .btn:active { background: #005bbf; transform: scale(0.98); }
+    .btn-outline {
+      background: transparent;
+      color: #007aff;
+      box-shadow: none;
+      border: 1.5px solid #007aff;
+    }
+    .recipe-box { background: #f8f8fc; border-radius: 16px; padding: 16px; margin: 16px 0; }
+    .recipe-title { font-weight: 700; margin-bottom: 12px; font-size: 18px; }
+    .ingredient-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed #d1d1d6; }
+    .toast-message {
+      position: fixed;
+      bottom: 30px;
+      left: 20px;
+      right: 20px;
+      background: #1c1c1e;
+      color: white;
+      padding: 14px 20px;
+      border-radius: 40px;
+      font-weight: 500;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
+      max-width: 500px;
+      margin: 0 auto;
+      z-index: 1000;
+    }
+    .toast-message.show { opacity: 1; }
+    .empty-state { text-align: center; color: #8e8e93; padding: 30px; font-size: 16px; }
+    .flex-row { display: flex; align-items: center; gap: 8px; }
+    .mt-3 { margin-top: 16px; }
+    .text-small { font-size: 14px; color: #8e8e93; }
+    .resumen-produccion {
+      background: #e9f0ff;
+      border-radius: 12px;
+      padding: 12px;
+      margin: 12px 0;
+      font-weight: 500;
+    }
+    /* Modal overlay */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 2000;
+      visibility: hidden;
+      opacity: 0;
+      transition: 0.2s;
+    }
+    .modal-overlay.active {
+      visibility: visible;
+      opacity: 1;
+    }
+    .modal-sheet {
+      background: #ffffff;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 24px 24px 0 0;
+      padding: 20px 20px 30px;
+      max-height: 90vh;
+      overflow-y: auto;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+    }
+    .modal-overlay.active .modal-sheet {
+      transform: translateY(0);
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .modal-title { font-size: 20px; font-weight: 700; }
+    .close-modal { background: none; border: none; font-size: 24px; color: #007aff; cursor: pointer; }
+    .ingredient-selector-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .delete-btn {
+      background: #ff3b30;
+      color: white;
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 30px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+<div class="app-container">
+  <div class="status-bar">
+    <span>9:41</span>
+    <span><i class="fas fa-wifi"></i>  <i class="fas fa-battery-full"></i></span>
+  </div>
+  <div class="app-header">
+    <h1>Almacén <span style="font-weight: 400; color: #8e8e93;">· fórmulas</span></h1>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab active" data-tab="inventario"><i class="fas fa-box"></i> Productos</button>
+    <button class="tab" data-tab="produccion"><i class="fas fa-flask"></i> Producción</button>
+  </div>
+
+  <!-- SECCIÓN INVENTARIO -->
+  <section id="inventario" class="section active">
+    <div class="card">
+      <div class="card-header">
+        <h3>Inventario actual</h3>
+        <span class="badge" id="total-productos">0 prod.</span>
+      </div>
+      <ul class="product-list" id="lista-productos"></ul>
+      <div class="quick-form">
+        <input type="text" id="buscar-producto" placeholder="🔍 Buscar..." class="input-field" style="padding: 12px;">
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-bottom: 12px; font-size: 18px;">Ajuste rápido</h3>
+      <div class="flex-row" style="gap: 6px;">
+        <select id="producto-select" class="select-unit" style="flex:2;"></select>
+        <input type="number" id="cantidad-ajuste" placeholder="Cantidad" class="input-field" style="flex:1;" step="any" min="0">
+        <select id="operacion" class="select-unit" style="width: 100px;">
+          <option value="descontar">➖ Restar</option>
+          <option value="agregar">➕ Sumar</option>
+        </select>
+        <button class="icon-btn" id="aplicar-ajuste" style="background: #007aff; color: white;"><i class="fas fa-check"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN PRODUCCIÓN (RECETAS DINÁMICAS) -->
+  <section id="produccion" class="section">
+    <div class="card">
+      <div class="card-header">
+        <h3><i class="fas fa-cookie-bite"></i> Producir</h3>
+        <button class="icon-btn" id="btn-agregar-receta" style="background: #007aff; color: white;"><i class="fas fa-plus"></i></button>
+      </div>
+
+      <div class="flex-row" style="margin-bottom: 16px;">
+        <label style="font-weight: 500;">Receta:</label>
+        <select id="receta-select" class="select-unit" style="flex:1;"></select>
+      </div>
+
+      <div class="flex-row" style="margin-bottom: 16px;">
+        <label style="font-weight: 500;" id="label-cantidad">Cantidad:</label>
+        <input type="number" id="cantidad-produccion" class="input-field" style="width: 120px;" value="70" min="0.01" step="0.01">
+      </div>
+
+      <div id="resumen-produccion" class="resumen-produccion"></div>
+      <div class="recipe-box" id="receta-dinamica"></div>
+      <p class="text-small" style="margin-bottom: 12px;" id="info-adicional-receta"></p>
+
+      <button class="btn" id="ejecutar-produccion" style="width: 100%;"><i class="fas fa-play"></i> Producir</button>
+      
+      <div style="margin-top: 24px;">
+        <h4 style="margin-bottom: 8px;">📦 Estado ingredientes</h4>
+        <div id="estado-ingredientes" class="text-small"></div>
+      </div>
+    </div>
+
+    <div class="card" id="card-conversion" style="display: none;">
+      <div class="card-header">
+        <h3><i class="fas fa-cubes"></i> Convertir sueltas</h3>
+      </div>
+      <p class="text-small" id="info-conversion"></p>
+      <button class="btn-outline btn" id="convertir-sueltas" style="margin-top: 8px;"><i class="fas fa-exchange-alt"></i> Empaquetar</button>
+      <div id="estado-sueltas" class="text-small mt-3"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h3><i class="fas fa-shopping-cart"></i> Vender</h3>
+      </div>
+      <div class="flex-row" style="gap: 8px; flex-wrap: wrap;">
+        <select id="producto-venta-select" class="select-unit" style="flex:2;"></select>
+        <input type="number" id="cantidad-venta" placeholder="Cantidad" class="input-field" style="flex:1;" step="1" min="1" value="1">
+        <button class="btn" id="registrar-venta"><i class="fas fa-check"></i> Vender</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODAL PARA AGREGAR/EDITAR RECETA -->
+  <div class="modal-overlay" id="modal-receta">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <h2 class="modal-title">➕ Nueva receta</h2>
+        <button class="close-modal" id="cerrar-modal"><i class="fas fa-times"></i></button>
+      </div>
+      <div id="form-receta">
+        <input type="text" id="receta-nombre" placeholder="Nombre del producto (ej. Pan francés)" class="input-field" style="margin-bottom: 12px;">
+        
+        <div class="flex-row" style="margin-bottom: 12px;">
+          <input type="text" id="receta-unidad" placeholder="ej. kg de harina, bandejas, litros…" class="input-field" value="kg de harina">
+        </div>
+        
+        <div class="flex-row" style="margin-bottom: 16px;">
+          <label>Unidades finales por </label>
+          <input type="number" id="receta-unidades-por-base" class="input-field" style="width: 100px;" value="200" min="1" step="1">
+          <span id="label-unidad-base">kg de harina</span>
+        </div>
+
+        <h4 style="margin: 16px 0 8px;">Ingredientes</h4>
+        <div id="lista-ingredientes-receta"></div>
+        <button class="btn-outline btn" id="agregar-ingrediente" style="margin: 12px 0;"><i class="fas fa-plus"></i> Agregar ingrediente</button>
+
+        <h4 style="margin: 16px 0 8px;">Empaque (opcional)</h4>
+        <div class="flex-row">
+          <label style="width: 80px;">Paquete de</label>
+          <input type="number" id="receta-unidades-paquete" class="input-field" placeholder="10" min="1" step="1">
+          <span>unidades</span>
+        </div>
+        <select id="receta-bolsa" class="select-unit" style="margin-top: 8px;">
+          <option value="">Sin bolsa / suelto</option>
+        </select>
+      </div>
+      <div style="display: flex; gap: 10px; margin-top: 20px;">
+        <button class="btn" id="guardar-receta" style="flex:1;">Guardar receta</button>
+        <button class="btn-outline btn" id="cancelar-receta" style="flex:1;">Cancelar</button>
+      </div>
+      <p class="text-small mt-3"><i class="fas fa-trash-alt"></i> Para eliminar una receta, selecciónela y use el botón rojo en Producción.</p>
+    </div>
+  </div>
+
+  <div id="toast" class="toast-message">Mensaje</div>
+</div>
+
+<script>
+  (function(){
+    "use strict";
+
+    // ---------- PRODUCTOS INICIALES (incluye productos de nuevas recetas) ----------
+    const PRODUCTOS_INICIALES = [
+      { nombre: "Harina", cantidad: 120, unidad: "kg" },
+      { nombre: "Azúcar", cantidad: 80, unidad: "kg" },
+      { nombre: "Manteca", cantidad: 25, unidad: "kg" },
+      { nombre: "Micovan", cantidad: 2.5, unidad: "kg" },
+      { nombre: "Bicarbonato", cantidad: 8, unidad: "kg" },
+      { nombre: "Polvo de hornear", cantidad: 3, unidad: "kg" },
+      { nombre: "Esencias vainilla y anís", cantidad: 500, unidad: "g" },
+      { nombre: "Colorante", cantidad: 250, unidad: "g" },
+      { nombre: "Guayaba", cantidad: 15, unidad: "kg" },
+      { nombre: "Arequipe (Tobo)", cantidad: 10, unidad: "kg" },
+      { nombre: "Levadura", cantidad: 2, unidad: "kg" },
+      { nombre: "Bolsas 1k 22x60", cantidad: 400, unidad: "unidades" },
+      { nombre: "Bolsas 20x50", cantidad: 200, unidad: "unidades" },
+      { nombre: "Bolsas 24x60", cantidad: 150, unidad: "unidades" },
+      { nombre: "Bolsas 4k transparente", cantidad: 80, unidad: "unidades" },
+      { nombre: "Anís en granos", cantidad: 3, unidad: "kg" },
+      { nombre: "Sal", cantidad: 12, unidad: "kg" },
+      { nombre: "Coco", cantidad: 5, unidad: "kg" },
+      { nombre: "Frutilla", cantidad: 2, unidad: "kg" },
+      { nombre: "Paquete Catalinas 1kg", cantidad: 0, unidad: "unidades" },
+      { nombre: "Catalinas sueltas (unidad)", cantidad: 0, unidad: "unidades" },
+      { nombre: "Paquete Polvorosas 1kg", cantidad: 0, unidad: "unidades" },
+      { nombre: "Polvorosas sueltas (unidad)", cantidad: 0, unidad: "unidades" },
+      { nombre: "Paquete Cortaos 1kg", cantidad: 0, unidad: "unidades" },
+      { nombre: "Cortaos sueltas (unidad)", cantidad: 0, unidad: "unidades" },
+      { nombre: "Pan de molde (unidad)", cantidad: 0, unidad: "unidades" }
+    ];
+
+    const UNIDADES_PERMITIDAS = ['kg', 'g', 'mg', 'L', 'unidades'];
+    const FACTORES = { 'kg': 1000, 'g': 1, 'mg': 0.001, 'L': 1000 };
+    const PESO_POR_SACO = { 'Harina': 45, 'Azúcar': 50 };
+
+    // ---------- RECETAS PREDEFINIDAS (3 recetas) ----------
+    const RECETAS_PREDEF = [
+      { // Catalinas
+        id: 'catalinas', nombre: 'Catalinas', unidadProduccion: 'bandejas', unidadesPorProduccion: 24,
+        ingredientes: [
+          { nombre: 'Harina', cantidad: 45 / 70, unidad: 'kg' },
+          { nombre: 'Azúcar', cantidad: 30 / 70, unidad: 'kg' },
+          { nombre: 'Bicarbonato', cantidad: 1 / 70, unidad: 'kg' },
+          { nombre: 'Manteca', cantidad: 1 / 70, unidad: 'kg' },
+          { nombre: 'Micovan', cantidad: 0.2 / 70, unidad: 'kg' }
+        ],
+        productoResultante: { 
+          tipo: 'compuesto', paquete: { nombre: 'Paquete Catalinas 1kg', unidadesPorPaquete: 10 }, 
+          suelto: { nombre: 'Catalinas sueltas (unidad)' }, insumoEmpaque: { nombre: 'Bolsas 1k 22x60', cantidadPorPaquete: 1 } 
+        },
+        infoAdicional: '70 bandejas = 1680 catalinas (168 paquetes). Gasto exacto: 45kg harina, 30kg azúcar, 1kg manteca, 1kg bicarbonato, 200g Micovan.'
+      },
+      { // Polvorosas blancas
+        id: 'polvorosas',
+        nombre: 'Polvorosas blancas',
+        unidadProduccion: 'latas',
+        unidadesPorProduccion: 1600 / 66.6, // 24.024 unidades por lata (aprox)
+        ingredientes: [
+          { nombre: 'Harina', cantidad: 45 / 66.6, unidad: 'kg' },
+          { nombre: 'Azúcar', cantidad: 25 / 66.6, unidad: 'kg' },
+          { nombre: 'Polvo de hornear', cantidad: 1 / 66.6, unidad: 'kg' },
+          { nombre: 'Manteca', cantidad: 1.5 / 66.6, unidad: 'kg' },
+          { nombre: 'Micovan', cantidad: 0.2 / 66.6, unidad: 'kg' }
+        ],
+        productoResultante: {
+          tipo: 'compuesto',
+          paquete: { nombre: 'Paquete Polvorosas 1kg', unidadesPorPaquete: 10 },
+          suelto: { nombre: 'Polvorosas sueltas (unidad)' },
+          insumoEmpaque: { nombre: 'Bolsas 1k 22x60', cantidadPorPaquete: 1 }
+        },
+        infoAdicional: '66.6 latas por saco de 45kg harina. 1 saco = 1600 unidades = 160 paquetes.'
+      },
+      { // Cortaos
+        id: 'cortaos',
+        nombre: 'Cortaos',
+        unidadProduccion: 'bandejas',
+        unidadesPorProduccion: 84, // 84 unidades por bandeja
+        ingredientes: [
+          { nombre: 'Harina', cantidad: 45 / 20, unidad: 'kg' },
+          { nombre: 'Azúcar', cantidad: 30 / 20, unidad: 'kg' },
+          { nombre: 'Bicarbonato', cantidad: 1 / 20, unidad: 'kg' },
+          { nombre: 'Manteca', cantidad: 1 / 20, unidad: 'kg' },
+          { nombre: 'Micovan', cantidad: 0.2 / 20, unidad: 'kg' },
+          { nombre: 'Esencias vainilla y anís', cantidad: 0.2 / 20, unidad: 'kg' } // 200g por saco
+        ],
+        productoResultante: {
+          tipo: 'compuesto',
+          paquete: { nombre: 'Paquete Cortaos 1kg', unidadesPorPaquete: 10 },
+          suelto: { nombre: 'Cortaos sueltas (unidad)' },
+          insumoEmpaque: { nombre: 'Bolsas 1k 22x60', cantidadPorPaquete: 1 }
+        },
+        infoAdicional: '20 bandejas por saco de 45kg harina. Cada bandeja = 84 unidades. Paquetes de 10.'
+      }
+    ];
+
+    let productos = [];
+    let recetas = [];
+    let recetaActual = null;
+    let ingredientesTemporales = [];
+
+    // DOM
+    const listaProductosEl = document.getElementById('lista-productos');
+    const totalProdSpan = document.getElementById('total-productos');
+    const productSelect = document.getElementById('producto-select');
+    const buscarInput = document.getElementById('buscar-producto');
+    const cantidadAjuste = document.getElementById('cantidad-ajuste');
+    const operacionSelect = document.getElementById('operacion');
+    const btnAjuste = document.getElementById('aplicar-ajuste');
+    const btnProduccion = document.getElementById('ejecutar-produccion');
+    const estadoIngredientesDiv = document.getElementById('estado-ingredientes');
+    const toastEl = document.getElementById('toast');
+    const productVentaSelect = document.getElementById('producto-venta-select');
+    const cantidadVenta = document.getElementById('cantidad-venta');
+    const btnVenta = document.getElementById('registrar-venta');
+    const cantidadProduccionInput = document.getElementById('cantidad-produccion');
+    const recetaDinamicaDiv = document.getElementById('receta-dinamica');
+    const resumenProduccionDiv = document.getElementById('resumen-produccion');
+    const labelCantidad = document.getElementById('label-cantidad');
+    const infoAdicionalReceta = document.getElementById('info-adicional-receta');
+    const recetaSelect = document.getElementById('receta-select');
+    const cardConversion = document.getElementById('card-conversion');
+    const infoConversion = document.getElementById('info-conversion');
+    const btnConvertirSueltas = document.getElementById('convertir-sueltas');
+    const estadoSueltasDiv = document.getElementById('estado-sueltas');
+    const btnAgregarReceta = document.getElementById('btn-agregar-receta');
+    const modalOverlay = document.getElementById('modal-receta');
+    const cerrarModal = document.getElementById('cerrar-modal');
+    const cancelarReceta = document.getElementById('cancelar-receta');
+    const guardarRecetaBtn = document.getElementById('guardar-receta');
+    const listaIngredientesDiv = document.getElementById('lista-ingredientes-receta');
+    const agregarIngredienteBtn = document.getElementById('agregar-ingrediente');
+    const recetaNombre = document.getElementById('receta-nombre');
+    const recetaUnidad = document.getElementById('receta-unidad');
+    const recetaUnidadesPorBase = document.getElementById('receta-unidades-por-base');
+    const labelUnidadBase = document.getElementById('label-unidad-base');
+    const recetaUnidadesPaquete = document.getElementById('receta-unidades-paquete');
+    const recetaBolsaSelect = document.getElementById('receta-bolsa');
+    const tabs = document.querySelectorAll('.tab');
+    const sections = document.querySelectorAll('.section');
+
+    recetaUnidad.addEventListener('input', () => {
+      labelUnidadBase.textContent = recetaUnidad.value || 'unidad';
+    });
+
+    function mostrarToast(texto, duracion = 2500) {
+      toastEl.textContent = texto;
+      toastEl.classList.add('show');
+      setTimeout(() => toastEl.classList.remove('show'), duracion);
+    }
+
+    function guardarDatos() {
+      localStorage.setItem('almacen_productos', JSON.stringify(productos));
+      localStorage.setItem('almacen_recetas', JSON.stringify(recetas));
+    }
+
+    function cargarDatos() {
+      const prodGuard = localStorage.getItem('almacen_productos');
+      productos = prodGuard ? JSON.parse(prodGuard) : [...PRODUCTOS_INICIALES];
+      const recetasGuard = localStorage.getItem('almacen_recetas');
+      recetas = recetasGuard ? JSON.parse(recetasGuard) : [...RECETAS_PREDEF];
+      
+      // Asegurar productos de recetas
+      const claves = [
+        'Bolsas 1k 22x60', 'Catalinas sueltas (unidad)', 'Paquete Catalinas 1kg',
+        'Paquete Polvorosas 1kg', 'Polvorosas sueltas (unidad)',
+        'Paquete Cortaos 1kg', 'Cortaos sueltas (unidad)'
+      ];
+      claves.forEach(nom => { if (!productos.some(p => p.nombre === nom)) productos.push({ nombre: nom, cantidad: 0, unidad: 'unidades' }); });
+      
+      const mapeo = { 'Ariana (Harina)': 'Harina', 'Mivovan variado': 'Micovan' };
+      productos = productos.map(p => mapeo[p.nombre] ? { ...p, nombre: mapeo[p.nombre] } : p);
+    }
+
+    function encontrarProducto(nombre) {
+      return productos.find(p => p.nombre.toLowerCase() === nombre.toLowerCase());
+    }
+
+    function convertirCantidad(valor, deUnidad, aUnidad) {
+      if (deUnidad === aUnidad) return valor;
+      if (deUnidad === 'unidades' || aUnidad === 'unidades') return valor;
+      let enBase = (deUnidad in FACTORES) ? valor * FACTORES[deUnidad] : valor * 1000;
+      return (aUnidad in FACTORES) ? enBase / FACTORES[aUnidad] : enBase / 1000;
+    }
+
+    function llenarSelectorRecetas() {
+      recetaSelect.innerHTML = recetas.map(r => `<option value="${r.id}">${r.nombre}</option>`).join('');
+      if (recetas.length) {
+        recetaActual = recetas.find(r => r.id === 'catalinas') || recetas[0];
+        recetaSelect.value = recetaActual.id;
+      }
+      actualizarVistaReceta();
+    }
+
+    function actualizarVistaReceta() {
+      if (!recetaActual) return;
+      const cantidad = parseFloat(cantidadProduccionInput.value) || 1;
+      labelCantidad.textContent = `Cantidad (${recetaActual.unidadProduccion}):`;
+      infoAdicionalReceta.textContent = recetaActual.infoAdicional || '';
+      
+      const totalUnidades = cantidad * recetaActual.unidadesPorProduccion;
+      let resumen = `<i class="fas fa-cookie"></i> Total unidades: <strong>${totalUnidades.toFixed(2)}</strong>`;
+      let paquetes = 0, sueltas = 0;
+      if (recetaActual.productoResultante.tipo === 'compuesto') {
+        const up = recetaActual.productoResultante.paquete.unidadesPorPaquete;
+        paquetes = Math.floor(totalUnidades / up);
+        sueltas = totalUnidades % up;
+        resumen += `<br><i class="fas fa-box"></i> Paquetes (${up} unid): <strong>${paquetes}</strong>`;
+        resumen += `<br><i class="fas fa-cubes"></i> Unidades sueltas: <strong>${sueltas.toFixed(0)}</strong>`;
+      }
+      resumenProduccionDiv.innerHTML = resumen;
+      
+      let html = `<div class="recipe-title">🧾 Ingredientes para ${cantidad} ${recetaActual.unidadProduccion}</div>`;
+      recetaActual.ingredientes.forEach(ing => {
+        const cantidadNecesaria = ing.cantidad * cantidad;
+        const formateada = (cantidadNecesaria % 1 === 0) ? cantidadNecesaria : cantidadNecesaria.toFixed(3);
+        html += `<div class="ingredient-row"><span>${ing.nombre}</span> <strong>${formateada} ${ing.unidad}</strong></div>`;
+      });
+      if (recetaActual.productoResultante.tipo === 'compuesto' && recetaActual.productoResultante.insumoEmpaque) {
+        const insumo = recetaActual.productoResultante.insumoEmpaque;
+        html += `<div class="ingredient-row"><span>${insumo.nombre}</span> <strong>${paquetes} unidades</strong></div>`;
+      }
+      recetaDinamicaDiv.innerHTML = html;
+      
+      if (recetaActual.productoResultante.tipo === 'compuesto') {
+        cardConversion.style.display = 'block';
+        const sueltoNom = recetaActual.productoResultante.suelto.nombre;
+        const paqueteNom = recetaActual.productoResultante.paquete.nombre;
+        infoConversion.textContent = `Convierte 10 ${sueltoNom} en 1 ${paqueteNom} (usa 1 bolsa).`;
+        const sueltasProd = encontrarProducto(sueltoNom);
+        estadoSueltasDiv.innerHTML = `${sueltoNom}: ${sueltasProd ? sueltasProd.cantidad : 0} unidades`;
+      } else {
+        cardConversion.style.display = 'none';
+      }
+      actualizarEstadoIngredientes();
+    }
+
+    function renderizarProductos(filtro = '') {
+      const termino = filtro.trim().toLowerCase();
+      const filtrados = termino ? productos.filter(p => p.nombre.toLowerCase().includes(termino)) : productos;
+      totalProdSpan.textContent = `${productos.length} prod.`;
+      if (!filtrados.length) listaProductosEl.innerHTML = `<li class="empty-state">No hay productos</li>`;
+      else {
+        listaProductosEl.innerHTML = filtrados.map(prod => {
+          const cantidadFormateada = Number.isInteger(prod.cantidad) ? prod.cantidad : prod.cantidad.toFixed(3);
+          let infoSacos = '';
+          if (prod.nombre === 'Harina' || prod.nombre === 'Azúcar') {
+            const kgPorSaco = PESO_POR_SACO[prod.nombre];
+            const sacos = prod.cantidad / kgPorSaco;
+            infoSacos = ` <span style="font-size: 15px; color: #8e8e93;">(≈ ${sacos.toFixed(1)} sacos)</span>`;
+          }
+          return `<li class="product-item">
+            <div class="product-info">
+              <div class="product-name">${prod.nombre}</div>
+              <div class="product-stock">${cantidadFormateada} <span class="product-unit">${prod.unidad}</span>${infoSacos}</div>
+            </div>
+            <div class="product-actions">
+              <button class="icon-btn" data-action="editar" data-nombre="${prod.nombre}"><i class="far fa-edit"></i></button>
+              <button class="icon-btn danger" data-action="descontar-rapido" data-nombre="${prod.nombre}"><i class="fas fa-minus-circle"></i></button>
+            </div>
+          </li>`;
+        }).join('');
+      }
+      actualizarSelects();
+    }
+
+    function actualizarSelects() {
+      productSelect.innerHTML = `<option value="">Selecciona producto</option>` + productos.map(p => `<option value="${p.nombre}">${p.nombre} (${p.cantidad} ${p.unidad})</option>`).join('');
+      const finales = productos.filter(p => 
+        p.nombre.includes('Paquete') || p.nombre.includes('sueltas') || 
+        p.nombre.includes('Pan') || recetas.some(r => r.productoResultante.suelto?.nombre === p.nombre || r.productoResultante.paquete?.nombre === p.nombre)
+      );
+      let opVenta = finales.map(p => `<option value="${p.nombre}">${p.nombre} (${p.cantidad} ${p.unidad})</option>`).join('');
+      if (!opVenta) opVenta = '<option value="">No hay productos finales</option>';
+      productVentaSelect.innerHTML = opVenta;
+      const bolsas = productos.filter(p => p.nombre.toLowerCase().includes('bolsa'));
+      recetaBolsaSelect.innerHTML = `<option value="">Sin bolsa / suelto</option>` + bolsas.map(p => `<option value="${p.nombre}">${p.nombre}</option>`).join('');
+    }
+
+    function actualizarEstadoIngredientes() {
+      const claves = ['Harina', 'Azúcar', 'Manteca', 'Micovan', 'Bicarbonato', 'Levadura', 'Polvo de hornear', 'Esencias vainilla y anís', 'Bolsas 1k 22x60'];
+      const lineas = claves.map(nom => { const p = encontrarProducto(nom); return p ? `${nom}: ${p.cantidad} ${p.unidad}` : `${nom}: no encontrado`; });
+      estadoIngredientesDiv.innerHTML = lineas.join('<br>');
+    }
+
+    function abrirModal() {
+      ingredientesTemporales = [];
+      recetaNombre.value = '';
+      recetaUnidad.value = 'kg de harina';
+      recetaUnidadesPorBase.value = 200;
+      recetaUnidadesPaquete.value = '';
+      labelUnidadBase.textContent = 'kg de harina';
+      renderizarIngredientesTemporales();
+      modalOverlay.classList.add('active');
+    }
+
+    function cerrarModalFn() { modalOverlay.classList.remove('active'); }
+
+    function renderizarIngredientesTemporales() {
+      let html = '';
+      ingredientesTemporales.forEach((ing, idx) => {
+        html += `<div class="ingredient-selector-item">
+          <select class="select-unit ing-nombre" data-idx="${idx}">${productos.map(p => `<option value="${p.nombre}" ${p.nombre === ing.nombre ? 'selected' : ''}>${p.nombre}</option>`).join('')}</select>
+          <input type="number" class="input-field ing-cantidad" value="${ing.cantidad}" step="0.001" min="0" style="width:100px">
+          <select class="select-unit ing-unidad" data-idx="${idx}">${UNIDADES_PERMITIDAS.map(u => `<option ${ing.unidad === u ? 'selected' : ''}>${u}</option>`).join('')}</select>
+          <button class="delete-btn" onclick="eliminarIngTemporal(${idx})"><i class="fas fa-trash"></i></button>
+        </div>`;
+      });
+      listaIngredientesDiv.innerHTML = html || '<p class="text-small">Aún no hay ingredientes. Agrega al menos uno.</p>';
+    }
+
+    window.eliminarIngTemporal = (idx) => { ingredientesTemporales.splice(idx, 1); renderizarIngredientesTemporales(); };
+
+    function agregarIngredienteTemporal() {
+      ingredientesTemporales.push({ nombre: productos[0]?.nombre || '', cantidad: 0, unidad: 'kg' });
+      renderizarIngredientesTemporales();
+    }
+
+    function guardarReceta() {
+      const nombre = recetaNombre.value.trim();
+      if (!nombre) { mostrarToast('Nombre requerido', 1500); return; }
+      const unidad = recetaUnidad.value.trim() || 'unidad';
+      const unidadesPorBase = parseFloat(recetaUnidadesPorBase.value);
+      if (!unidadesPorBase || unidadesPorBase <= 0) { mostrarToast('Unidades por base inválidas', 1500); return; }
+      if (ingredientesTemporales.length === 0) { mostrarToast('Agrega al menos un ingrediente', 1500); return; }
+      
+      for (let ing of ingredientesTemporales) {
+        if (!ing.nombre || ing.cantidad <= 0) { mostrarToast('Completa todos los ingredientes', 1500); return; }
+      }
+      
+      const id = 'receta_' + Date.now();
+      const paqueteUnidades = recetaUnidadesPaquete.value ? parseInt(recetaUnidadesPaquete.value) : null;
+      const bolsaSeleccionada = recetaBolsaSelect.value;
+      
+      let productoResultante;
+      if (paqueteUnidades && paqueteUnidades > 0) {
+        const nombrePaquete = `Paquete ${nombre} ${paqueteUnidades}u`;
+        if (!productos.some(p => p.nombre === nombrePaquete)) productos.push({ nombre: nombrePaquete, cantidad: 0, unidad: 'unidades' });
+        const nombreSuelto = `${nombre} sueltas`;
+        if (!productos.some(p => p.nombre === nombreSuelto)) productos.push({ nombre: nombreSuelto, cantidad: 0, unidad: 'unidades' });
+        productoResultante = {
+          tipo: 'compuesto',
+          paquete: { nombre: nombrePaquete, unidadesPorPaquete: paqueteUnidades },
+          suelto: { nombre: nombreSuelto },
+          insumoEmpaque: bolsaSeleccionada ? { nombre: bolsaSeleccionada, cantidadPorPaquete: 1 } : null
+        };
+      } else {
+        const nombreSuelto = `${nombre} (unidad)`;
+        if (!productos.some(p => p.nombre === nombreSuelto)) productos.push({ nombre: nombreSuelto, cantidad: 0, unidad: 'unidades' });
+        productoResultante = { tipo: 'simple', suelto: { nombre: nombreSuelto } };
+      }
+      
+      const nuevaReceta = {
+        id, nombre, unidadProduccion: unidad, unidadesPorProduccion: unidadesPorBase,
+        ingredientes: ingredientesTemporales.map(ing => ({ ...ing })),
+        productoResultante,
+        infoAdicional: `Por cada ${unidad} se producen ${unidadesPorBase} unidades.`
+      };
+      recetas.push(nuevaReceta);
+      guardarDatos();
+      llenarSelectorRecetas();
+      recetaSelect.value = id;
+      recetaActual = nuevaReceta;
+      actualizarVistaReceta();
+      renderizarProductos(buscarInput.value);
+      cerrarModalFn();
+      mostrarToast(`✅ Receta "${nombre}" creada`, 2000);
+    }
+
+    function eliminarRecetaActual() {
+      if (!recetaActual) return;
+      if (!confirm(`¿Eliminar receta "${recetaActual.nombre}"?`)) return;
+      recetas = recetas.filter(r => r.id !== recetaActual.id);
+      guardarDatos();
+      if (recetas.length) recetaActual = recetas[0]; else recetaActual = null;
+      llenarSelectorRecetas();
+      actualizarVistaReceta();
+    }
+
+    function ejecutarProduccion() {
+      if (!recetaActual) { mostrarToast('No hay receta seleccionada', 1500); return; }
+      const cantidad = parseFloat(cantidadProduccionInput.value);
+      if (isNaN(cantidad) || cantidad <= 0) { mostrarToast('Cantidad inválida', 1500); return; }
+      
+      const receta = recetaActual;
+      const totalUnidades = cantidad * receta.unidadesPorProduccion;
+      
+      for (let ing of receta.ingredientes) {
+        const prod = encontrarProducto(ing.nombre);
+        if (!prod) { mostrarToast(`Producto "${ing.nombre}" no existe en inventario`, 2500); return; }
+        const req = ing.cantidad * cantidad;
+        const reqConvertida = convertirCantidad(req, ing.unidad, prod.unidad);
+        if (prod.cantidad < reqConvertida) { 
+          mostrarToast(`Falta ${ing.nombre} (necesita ${req.toFixed(3)} ${ing.unidad})`, 2500); 
+          return; 
+        }
+      }
+      
+      let paquetes = 0, sueltas = totalUnidades;
+      if (receta.productoResultante.tipo === 'compuesto') {
+        const up = receta.productoResultante.paquete.unidadesPorPaquete;
+        paquetes = Math.floor(totalUnidades / up);
+        sueltas = totalUnidades % up;
+        const insumo = receta.productoResultante.insumoEmpaque;
+        if (insumo) {
+          const prodIns = encontrarProducto(insumo.nombre);
+          if (!prodIns || prodIns.cantidad < paquetes) { mostrarToast(`Faltan ${insumo.nombre} (${paquetes} unidades)`, 2000); return; }
+        }
+      }
+      
+      for (let ing of receta.ingredientes) {
+        const prod = encontrarProducto(ing.nombre);
+        prod.cantidad -= convertirCantidad(ing.cantidad * cantidad, ing.unidad, prod.unidad);
+      }
+      if (receta.productoResultante.tipo === 'compuesto' && receta.productoResultante.insumoEmpaque) {
+        const ins = receta.productoResultante.insumoEmpaque;
+        encontrarProducto(ins.nombre).cantidad -= paquetes;
+      }
+      
+      if (receta.productoResultante.tipo === 'compuesto') {
+        let pPaq = encontrarProducto(receta.productoResultante.paquete.nombre);
+        if (!pPaq) { pPaq = { nombre: receta.productoResultante.paquete.nombre, cantidad: 0, unidad: 'unidades' }; productos.push(pPaq); }
+        pPaq.cantidad += paquetes;
+        let pSuel = encontrarProducto(receta.productoResultante.suelto.nombre);
+        if (!pSuel) { pSuel = { nombre: receta.productoResultante.suelto.nombre, cantidad: 0, unidad: 'unidades' }; productos.push(pSuel); }
+        pSuel.cantidad += sueltas;
+      } else {
+        let pSuel = encontrarProducto(receta.productoResultante.suelto.nombre);
+        if (!pSuel) { pSuel = { nombre: receta.productoResultante.suelto.nombre, cantidad: 0, unidad: 'unidades' }; productos.push(pSuel); }
+        pSuel.cantidad += totalUnidades;
+      }
+      
+      guardarDatos();
+      renderizarProductos(buscarInput.value);
+      actualizarVistaReceta();
+      mostrarToast(`✅ Producción completada`, 2000);
+    }
+
+    // ---------- EDICIÓN MEJORADA PARA TODOS ----------
+    function editarProducto(nombre) {
+      const prod = encontrarProducto(nombre);
+      if (!prod) return;
+      
+      if (nombre === 'Harina' || nombre === 'Azúcar') {
+        const usarSacos = confirm(`¿Deseas ingresar número de sacos para sumar al inventario?\n(Aceptar = sacos, Cancelar = kilos directos)`);
+        if (usarSacos) {
+          const kgPorSaco = PESO_POR_SACO[nombre];
+          const sacosStr = prompt(`Número de sacos de ${nombre} (${kgPorSaco} kg c/u) a AGREGAR`, "");
+          if (sacosStr === null) return;
+          const sacos = parseFloat(sacosStr.replace(',', '.'));
+          if (isNaN(sacos) || sacos <= 0) {
+            mostrarToast('Número de sacos inválido', 1500);
+            return;
+          }
+          const kilosAgregar = sacos * kgPorSaco;
+          prod.cantidad += kilosAgregar;
+          mostrarToast(`➕ ${sacos} saco(s) = +${kilosAgregar} kg | Total: ${prod.cantidad.toFixed(2)} kg`, 2500);
+          guardarDatos();
+          renderizarProductos(buscarInput.value);
+          actualizarVistaReceta();
+          return;
+        }
+      } else {
+        const sumar = confirm(`¿Deseas AGREGAR cantidad al inventario actual de ${nombre}?\n(Aceptar = Sumar, Cancelar = Reemplazar valor)`);
+        if (sumar) {
+          const cantidadStr = prompt(`Cantidad a AGREGAR (${prod.unidad}) de ${nombre}`, "0");
+          if (cantidadStr === null) return;
+          const cantidad = parseFloat(cantidadStr.replace(',', '.'));
+          if (isNaN(cantidad) || cantidad <= 0) {
+            mostrarToast('Cantidad inválida', 1500);
+            return;
+          }
+          prod.cantidad += cantidad;
+          mostrarToast(`➕ Agregado ${cantidad} ${prod.unidad} | Total: ${prod.cantidad.toFixed(3)} ${prod.unidad}`, 2000);
+          guardarDatos();
+          renderizarProductos(buscarInput.value);
+          actualizarVistaReceta();
+          return;
+        }
+      }
+      
+      // Edición normal (reemplazar)
+      const nuevaCantStr = prompt(`Editar cantidad de ${prod.nombre} (${prod.unidad})`, prod.cantidad);
+      if (nuevaCantStr === null) return;
+      const nuevaCant = parseFloat(nuevaCantStr.replace(',', '.'));
+      if (isNaN(nuevaCant) || nuevaCant < 0) {
+        mostrarToast('Cantidad no válida', 1500);
+        return;
+      }
+      prod.cantidad = nuevaCant;
+      
+      const cambiarUnidad = confirm(`¿Cambiar unidad? Actual: ${prod.unidad}`);
+      if (cambiarUnidad) {
+        let nuevaUnidad = prompt(`Nueva unidad (${UNIDADES_PERMITIDAS.join(', ')})`, prod.unidad);
+        if (nuevaUnidad && UNIDADES_PERMITIDAS.includes(nuevaUnidad)) {
+          prod.cantidad = convertirCantidad(prod.cantidad, prod.unidad, nuevaUnidad);
+          prod.unidad = nuevaUnidad;
+        }
+      }
+      guardarDatos();
+      renderizarProductos(buscarInput.value);
+      actualizarVistaReceta();
+      mostrarToast(`✅ ${prod.nombre} actualizado`, 1200);
+    }
+
+    function descontarRapido(nombre) {
+      const prod = encontrarProducto(nombre);
+      if (!prod) return;
+      const cantidadStr = prompt(`Descontar ${prod.unidad} de ${prod.nombre}`, "0");
+      if (cantidadStr === null) return;
+      const cantidad = parseFloat(cantidadStr.replace(',', '.'));
+      if (isNaN(cantidad) || cantidad <= 0) {
+        mostrarToast('Cantidad inválida', 1200);
+        return;
+      }
+      if (prod.cantidad < cantidad) {
+        mostrarToast('Stock insuficiente', 1500);
+        return;
+      }
+      prod.cantidad -= cantidad;
+      guardarDatos();
+      renderizarProductos('');
+      actualizarVistaReceta();
+      mostrarToast(`Descontado ${cantidad} ${prod.unidad} de ${prod.nombre}`, 1500);
+    }
+
+    function setupListeners() {
+      tabs.forEach(tab => tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active')); sections.forEach(s => s.classList.remove('active'));
+        tab.classList.add('active'); document.getElementById(tab.dataset.tab).classList.add('active');
+        if (tab.dataset.tab === 'produccion') actualizarVistaReceta();
+      }));
+      buscarInput.addEventListener('input', e => renderizarProductos(e.target.value));
+      listaProductosEl.addEventListener('click', e => {
+        const btn = e.target.closest('button'); if (!btn) return;
+        const nombre = btn.dataset.nombre;
+        if (btn.dataset.action === 'editar') editarProducto(nombre);
+        else if (btn.dataset.action === 'descontar-rapido') descontarRapido(nombre);
+      });
+      btnAjuste.addEventListener('click', () => {
+        const nombre = productSelect.value; if (!nombre) return;
+        const cantidad = parseFloat(cantidadAjuste.value); if (isNaN(cantidad) || cantidad<=0) return;
+        const esSuma = operacionSelect.value === 'agregar';
+        const prod = encontrarProducto(nombre);
+        prod.cantidad = esSuma ? prod.cantidad + cantidad : prod.cantidad - cantidad;
+        if (prod.cantidad < 0) { mostrarToast('Stock insuficiente'); return; }
+        guardarDatos(); renderizarProductos(buscarInput.value); actualizarVistaReceta();
+        mostrarToast(`${esSuma ? 'Sumado' : 'Restado'}`, 1000);
+        cantidadAjuste.value = '';
+      });
+      recetaSelect.addEventListener('change', () => {
+        recetaActual = recetas.find(r => r.id === recetaSelect.value); 
+        actualizarVistaReceta();
+      });
+      cantidadProduccionInput.addEventListener('input', actualizarVistaReceta);
+      btnProduccion.addEventListener('click', ejecutarProduccion);
+      btnConvertirSueltas.addEventListener('click', () => {
+        if (!recetaActual || recetaActual.productoResultante.tipo !== 'compuesto') return;
+        const suelto = encontrarProducto(recetaActual.productoResultante.suelto.nombre);
+        const paquete = encontrarProducto(recetaActual.productoResultante.paquete.nombre);
+        const bolsa = recetaActual.productoResultante.insumoEmpaque ? encontrarProducto(recetaActual.productoResultante.insumoEmpaque.nombre) : null;
+        if (!suelto || suelto.cantidad < 10) { mostrarToast('Necesitas 10 sueltas'); return; }
+        if (bolsa && bolsa.cantidad < 1) { mostrarToast('Falta bolsa'); return; }
+        suelto.cantidad -= 10;
+        if (bolsa) bolsa.cantidad -= 1;
+        paquete.cantidad += 1;
+        guardarDatos(); renderizarProductos(''); actualizarVistaReceta();
+        mostrarToast('Convertido 10 sueltas en 1 paquete');
+      });
+      btnVenta.addEventListener('click', () => {
+        const nombre = productVentaSelect.value; if (!nombre) return;
+        const cantidad = parseInt(cantidadVenta.value); if (!cantidad) return;
+        const prod = encontrarProducto(nombre);
+        if (prod.cantidad < cantidad) { mostrarToast('Stock insuficiente'); return; }
+        prod.cantidad -= cantidad;
+        guardarDatos(); renderizarProductos(''); actualizarVistaReceta();
+        mostrarToast(`Vendido ${cantidad} ${nombre}`);
+        cantidadVenta.value = 1;
+      });
+      btnAgregarReceta.addEventListener('click', abrirModal);
+      cerrarModal.addEventListener('click', cerrarModalFn);
+      cancelarReceta.addEventListener('click', cerrarModalFn);
+      agregarIngredienteBtn.addEventListener('click', agregarIngredienteTemporal);
+      guardarRecetaBtn.addEventListener('click', guardarReceta);
+      modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) cerrarModalFn(); });
+      
+      const btnEliminar = document.createElement('button');
+      btnEliminar.className = 'icon-btn danger';
+      btnEliminar.innerHTML = '<i class="fas fa-trash"></i>';
+      btnEliminar.style.marginLeft = '8px';
+      btnEliminar.onclick = eliminarRecetaActual;
+      document.querySelector('#produccion .card-header').appendChild(btnEliminar);
+    }
+
+    function init() {
+      cargarDatos();
+      renderizarProductos('');
+      llenarSelectorRecetas();
+      setupListeners();
+    }
+    init();
+  })();
+</script>
+</body>
+</html>
