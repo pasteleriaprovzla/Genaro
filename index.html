@@ -243,7 +243,6 @@
     <button class="tab" data-tab="produccion"><i class="fas fa-flask"></i> Producción</button>
   </div>
 
-  <!-- SECCIÓN INVENTARIO -->
   <section id="inventario" class="section active">
     <div class="card">
       <div class="card-header">
@@ -270,7 +269,6 @@
     </div>
   </section>
 
-  <!-- SECCIÓN PRODUCCIÓN (RECETAS DINÁMICAS) -->
   <section id="produccion" class="section">
     <div class="card">
       <div class="card-header">
@@ -321,7 +319,6 @@
     </div>
   </section>
 
-  <!-- MODAL PARA AGREGAR/EDITAR RECETA -->
   <div class="modal-overlay" id="modal-receta">
     <div class="modal-sheet">
       <div class="modal-header">
@@ -360,6 +357,41 @@
         <button class="btn-outline btn" id="cancelar-receta" style="flex:1;">Cancelar</button>
       </div>
       <p class="text-small mt-3"><i class="fas fa-trash-alt"></i> Para eliminar una receta, selecciónela y use el botón rojo en Producción.</p>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-ingreso">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <h2 class="modal-title" id="titulo-modal-ingreso">Ajustar Inventario</h2>
+        <button class="close-modal" id="cerrar-modal-ingreso"><i class="fas fa-times"></i></button>
+      </div>
+      <div id="form-ingreso">
+        <p style="margin-bottom: 16px; font-size: 15px; color: #8e8e93;" id="desc-modal-ingreso"></p>
+
+        <div id="opciones-sacos" style="margin-bottom: 16px; display: none;">
+          <label style="font-weight: 500; display: block; margin-bottom: 8px; color: #1c1c1e;">¿Cómo llegó la mercancía?</label>
+          <select id="forma-ingreso" class="select-unit" style="width: 100%; border-color: #007aff; background: #e9f0ff; color: #007aff; font-weight: 600;">
+            </select>
+        </div>
+
+        <div style="margin-bottom: 16px;">
+          <label style="font-weight: 500; display: block; margin-bottom: 8px; color: #1c1c1e;">Acción a realizar:</label>
+          <select id="accion-ingreso" class="select-unit" style="width: 100%;">
+            <option value="sumar">➕ Agregar al stock actual</option>
+            <option value="reemplazar">🔄 Reemplazar total (Conteo físico)</option>
+          </select>
+        </div>
+
+        <label style="font-weight: 500; display: block; margin-bottom: 8px; color: #1c1c1e;">Cantidad:</label>
+        <div class="flex-row" style="margin-bottom: 16px;">
+          <input type="number" id="cantidad-ingreso" class="input-field" placeholder="Ingresa la cantidad..." min="0" step="any">
+          <span id="unidad-ingreso-label" style="font-weight: 600; width: 60px; text-align: center; color: #8e8e93;">kg</span>
+        </div>
+      </div>
+      <div style="display: flex; gap: 10px; margin-top: 24px;">
+        <button class="btn" id="guardar-ingreso" style="flex:1;">Guardar Ajuste</button>
+      </div>
     </div>
   </div>
 
@@ -468,6 +500,7 @@
     let recetas = [];
     let recetaActual = null;
     let ingredientesTemporales = [];
+    let prodEditando = null; // Para el nuevo modal
 
     // DOM
     const listaProductosEl = document.getElementById('lista-productos');
@@ -508,6 +541,19 @@
     const recetaBolsaSelect = document.getElementById('receta-bolsa');
     const tabs = document.querySelectorAll('.tab');
     const sections = document.querySelectorAll('.section');
+
+    // DOM NUEVO MODAL INGRESO
+    const modalIngreso = document.getElementById('modal-ingreso');
+    const cerrarModalIngresoBtn = document.getElementById('cerrar-modal-ingreso');
+    const tituloModalIngreso = document.getElementById('titulo-modal-ingreso');
+    const descModalIngreso = document.getElementById('desc-modal-ingreso');
+    const opcionesSacosDiv = document.getElementById('opciones-sacos');
+    const formaIngresoSelect = document.getElementById('forma-ingreso');
+    const accionIngresoSelect = document.getElementById('accion-ingreso');
+    const cantidadIngreso = document.getElementById('cantidad-ingreso');
+    const unidadIngresoLabel = document.getElementById('unidad-ingreso-label');
+    const guardarIngresoBtn = document.getElementById('guardar-ingreso');
+
 
     recetaUnidad.addEventListener('input', () => {
       labelUnidadBase.textContent = recetaUnidad.value || 'unidad';
@@ -806,77 +852,86 @@
       mostrarToast(`✅ Producción completada`, 2000);
     }
 
-    // ---------- EDICIÓN MEJORADA PARA TODOS ----------
-    function editarProducto(nombre) {
-      const prod = encontrarProducto(nombre);
-      if (!prod) return;
-      
+    // ---------- LÓGICA DEL NUEVO MODAL ELEGANTE ----------
+    function abrirModalIngreso(nombre) {
+      prodEditando = encontrarProducto(nombre);
+      if (!prodEditando) return;
+
+      tituloModalIngreso.innerHTML = `✏️ Ajustar ${prodEditando.nombre}`;
+      descModalIngreso.innerHTML = `Inventario actual: <strong>${prodEditando.cantidad.toFixed(2)} ${prodEditando.unidad}</strong>`;
+      cantidadIngreso.value = '';
+      accionIngresoSelect.value = 'sumar';
+
+      // Detectar si es Harina o Azúcar para habilitar Sacos
       if (nombre === 'Harina' || nombre === 'Azúcar') {
-        const usarSacos = confirm(`¿Deseas ingresar número de sacos para sumar al inventario?\n(Aceptar = sacos, Cancelar = kilos directos)`);
-        if (usarSacos) {
-          const kgPorSaco = PESO_POR_SACO[nombre];
-          const sacosStr = prompt(`Número de sacos de ${nombre} (${kgPorSaco} kg c/u) a AGREGAR`, "");
-          if (sacosStr === null) return;
-          const sacos = parseFloat(sacosStr.replace(',', '.'));
-          if (isNaN(sacos) || sacos <= 0) {
-            mostrarToast('Número de sacos inválido', 1500);
-            return;
-          }
-          const kilosAgregar = sacos * kgPorSaco;
-          prod.cantidad += kilosAgregar;
-          mostrarToast(`➕ ${sacos} saco(s) = +${kilosAgregar} kg | Total: ${prod.cantidad.toFixed(2)} kg`, 2500);
-          guardarDatos();
-          renderizarProductos(buscarInput.value);
-          actualizarVistaReceta();
-          return;
-        }
+        opcionesSacosDiv.style.display = 'block';
+        formaIngresoSelect.innerHTML = `
+          <option value="kilos">Llegó en Kilos (kg)</option>
+          <option value="sacos">Llegó en Sacos (${PESO_POR_SACO[nombre]} kg c/u)</option>
+        `;
+        formaIngresoSelect.value = 'kilos';
+        unidadIngresoLabel.textContent = 'kg';
       } else {
-        const sumar = confirm(`¿Deseas AGREGAR cantidad al inventario actual de ${nombre}?\n(Aceptar = Sumar, Cancelar = Reemplazar valor)`);
-        if (sumar) {
-          const cantidadStr = prompt(`Cantidad a AGREGAR (${prod.unidad}) de ${nombre}`, "0");
-          if (cantidadStr === null) return;
-          const cantidad = parseFloat(cantidadStr.replace(',', '.'));
-          if (isNaN(cantidad) || cantidad <= 0) {
-            mostrarToast('Cantidad inválida', 1500);
-            return;
-          }
-          prod.cantidad += cantidad;
-          mostrarToast(`➕ Agregado ${cantidad} ${prod.unidad} | Total: ${prod.cantidad.toFixed(3)} ${prod.unidad}`, 2000);
-          guardarDatos();
-          renderizarProductos(buscarInput.value);
-          actualizarVistaReceta();
-          return;
-        }
+        opcionesSacosDiv.style.display = 'none';
+        formaIngresoSelect.innerHTML = `<option value="base">${prodEditando.unidad}</option>`;
+        unidadIngresoLabel.textContent = prodEditando.unidad;
       }
+
+      modalIngreso.classList.add('active');
+    }
+
+    function cerrarModalIngreso() {
+      modalIngreso.classList.remove('active');
+      prodEditando = null;
+    }
+
+    formaIngresoSelect.addEventListener('change', (e) => {
+      if(e.target.value === 'sacos') {
+        unidadIngresoLabel.textContent = 'sacos';
+      } else if (e.target.value === 'kilos') {
+        unidadIngresoLabel.textContent = 'kg';
+      } else {
+        unidadIngresoLabel.textContent = prodEditando ? prodEditando.unidad : '';
+      }
+    });
+
+    guardarIngresoBtn.addEventListener('click', () => {
+      if(!prodEditando) return;
+      const valor = parseFloat(cantidadIngreso.value);
       
-      // Edición normal (reemplazar)
-      const nuevaCantStr = prompt(`Editar cantidad de ${prod.nombre} (${prod.unidad})`, prod.cantidad);
-      if (nuevaCantStr === null) return;
-      const nuevaCant = parseFloat(nuevaCantStr.replace(',', '.'));
-      if (isNaN(nuevaCant) || nuevaCant < 0) {
-        mostrarToast('Cantidad no válida', 1500);
+      if (isNaN(valor) || valor < 0) {
+        mostrarToast('Ingresa una cantidad válida', 1500);
         return;
       }
-      prod.cantidad = nuevaCant;
-      
-      const cambiarUnidad = confirm(`¿Cambiar unidad? Actual: ${prod.unidad}`);
-      if (cambiarUnidad) {
-        let nuevaUnidad = prompt(`Nueva unidad (${UNIDADES_PERMITIDAS.join(', ')})`, prod.unidad);
-        if (nuevaUnidad && UNIDADES_PERMITIDAS.includes(nuevaUnidad)) {
-          prod.cantidad = convertirCantidad(prod.cantidad, prod.unidad, nuevaUnidad);
-          prod.unidad = nuevaUnidad;
-        }
+
+      const forma = formaIngresoSelect.value;
+      const accion = accionIngresoSelect.value;
+      let cantidadKilosFinales = valor;
+
+      // Si eligió Sacos, multiplicamos por el peso del saco correspondiente
+      if (forma === 'sacos') {
+        cantidadKilosFinales = valor * PESO_POR_SACO[prodEditando.nombre];
       }
+
+      if (accion === 'sumar') {
+        prodEditando.cantidad += cantidadKilosFinales;
+        mostrarToast(`➕ Sumado con éxito | Total: ${prodEditando.cantidad.toFixed(2)} ${prodEditando.unidad}`, 2500);
+      } else {
+        prodEditando.cantidad = cantidadKilosFinales;
+        mostrarToast(`🔄 Inventario reemplazado | Nuevo total: ${prodEditando.cantidad.toFixed(2)} ${prodEditando.unidad}`, 2500);
+      }
+
       guardarDatos();
       renderizarProductos(buscarInput.value);
       actualizarVistaReceta();
-      mostrarToast(`✅ ${prod.nombre} actualizado`, 1200);
-    }
+      cerrarModalIngreso();
+    });
+    // -----------------------------------------------------
 
     function descontarRapido(nombre) {
       const prod = encontrarProducto(nombre);
       if (!prod) return;
-      const cantidadStr = prompt(`Descontar ${prod.unidad} de ${prod.nombre}`, "0");
+      const cantidadStr = prompt(`Descontar ${prod.unidad} de ${prod.nombre} (Pérdida/Daño)`, "0");
       if (cantidadStr === null) return;
       const cantidad = parseFloat(cantidadStr.replace(',', '.'));
       if (isNaN(cantidad) || cantidad <= 0) {
@@ -901,12 +956,15 @@
         if (tab.dataset.tab === 'produccion') actualizarVistaReceta();
       }));
       buscarInput.addEventListener('input', e => renderizarProductos(e.target.value));
+      
+      // AQUI cambiamos editarProducto por la nueva función del Modal
       listaProductosEl.addEventListener('click', e => {
         const btn = e.target.closest('button'); if (!btn) return;
         const nombre = btn.dataset.nombre;
-        if (btn.dataset.action === 'editar') editarProducto(nombre);
+        if (btn.dataset.action === 'editar') abrirModalIngreso(nombre);
         else if (btn.dataset.action === 'descontar-rapido') descontarRapido(nombre);
       });
+      
       btnAjuste.addEventListener('click', () => {
         const nombre = productSelect.value; if (!nombre) return;
         const cantidad = parseFloat(cantidadAjuste.value); if (isNaN(cantidad) || cantidad<=0) return;
@@ -947,12 +1005,19 @@
         mostrarToast(`Vendido ${cantidad} ${nombre}`);
         cantidadVenta.value = 1;
       });
+      
+      // Listeners modales
       btnAgregarReceta.addEventListener('click', abrirModal);
       cerrarModal.addEventListener('click', cerrarModalFn);
       cancelarReceta.addEventListener('click', cerrarModalFn);
+      
+      cerrarModalIngresoBtn.addEventListener('click', cerrarModalIngreso);
+
       agregarIngredienteBtn.addEventListener('click', agregarIngredienteTemporal);
       guardarRecetaBtn.addEventListener('click', guardarReceta);
+      
       modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) cerrarModalFn(); });
+      modalIngreso.addEventListener('click', e => { if (e.target === modalIngreso) cerrarModalIngreso(); });
       
       const btnEliminar = document.createElement('button');
       btnEliminar.className = 'icon-btn danger';
