@@ -402,7 +402,7 @@
   (function(){
     "use strict";
 
-    // ---------- PRODUCTOS INICIALES (incluye productos de nuevas recetas) ----------
+    // ---------- PRODUCTOS INICIALES ----------
     const PRODUCTOS_INICIALES = [
       { nombre: "Harina", cantidad: 120, unidad: "kg" },
       { nombre: "Azúcar", cantidad: 80, unidad: "kg" },
@@ -431,6 +431,8 @@
       { nombre: "Cortaos sueltas (unidad)", cantidad: 0, unidad: "unidades" },
       { nombre: "Paquete Catalinas pequeñas 1kg", cantidad: 0, unidad: "unidades" },
       { nombre: "Catalinas pequeñas sueltas", cantidad: 0, unidad: "unidades" },
+      { nombre: "Paquete Roscas pequeñas 1kg", cantidad: 0, unidad: "unidades" },
+      { nombre: "Roscas pequeñas sueltas", cantidad: 0, unidad: "unidades" },
       { nombre: "Pan de molde (unidad)", cantidad: 0, unidad: "unidades" }
     ];
 
@@ -438,7 +440,7 @@
     const FACTORES = { 'kg': 1000, 'g': 1, 'mg': 0.001, 'L': 1000 };
     const PESO_POR_SACO = { 'Harina': 45, 'Azúcar': 50 };
 
-    // ---------- RECETAS PREDEFINIDAS (4 recetas) ----------
+    // ---------- RECETAS PREDEFINIDAS (5 recetas) ----------
     const RECETAS_PREDEF = [
       { // Catalinas
         id: 'catalinas', nombre: 'Catalinas', unidadProduccion: 'bandejas', unidadesPorProduccion: 24,
@@ -515,6 +517,25 @@
           insumoEmpaque: { nombre: 'Bolsas 1k 22x60', cantidadPorPaquete: 1 }
         },
         infoAdicional: '90 bandejas por saco de 45kg harina. 1 saco = 4320 unidades = 180 paquetes (24 unid/paquete).'
+      },
+      { // Roscas pequeñas (NUEVA)
+        id: 'roscas_pequenas',
+        nombre: 'Roscas pequeñas',
+        unidadProduccion: 'latas',
+        unidadesPorProduccion: 35, // 35 unidades por lata
+        ingredientes: [
+          { nombre: 'Harina', cantidad: 45 / 113, unidad: 'kg' },
+          { nombre: 'Azúcar', cantidad: 11 / 113, unidad: 'kg' },
+          { nombre: 'Manteca', cantidad: 0.6 / 113, unidad: 'kg' },
+          { nombre: 'Anís en granos', cantidad: 0.1 / 113, unidad: 'kg' }
+        ],
+        productoResultante: {
+          tipo: 'compuesto',
+          paquete: { nombre: 'Paquete Roscas pequeñas 1kg', unidadesPorPaquete: 24 },
+          suelto: { nombre: 'Roscas pequeñas sueltas' },
+          insumoEmpaque: { nombre: 'Bolsas 1k 22x60', cantidadPorPaquete: 1 }
+        },
+        infoAdicional: '113 latas por saco de 45kg harina. Cada lata = 35 unidades. Paquetes de 24 unidades.'
       }
     ];
 
@@ -592,19 +613,18 @@
     }
 
     function asegurarRecetasYProductos() {
-      // Asegurar que todas las recetas predefinidas estén presentes
       RECETAS_PREDEF.forEach(recetaPre => {
         if (!recetas.some(r => r.id === recetaPre.id)) {
           recetas.push(recetaPre);
         }
       });
 
-      // Asegurar productos clave
       const claves = [
         'Bolsas 1k 22x60', 'Catalinas sueltas (unidad)', 'Paquete Catalinas 1kg',
         'Paquete Polvorosas 1kg', 'Polvorosas sueltas (unidad)',
         'Paquete Cortaos 1kg', 'Cortaos sueltas (unidad)',
-        'Paquete Catalinas pequeñas 1kg', 'Catalinas pequeñas sueltas'
+        'Paquete Catalinas pequeñas 1kg', 'Catalinas pequeñas sueltas',
+        'Paquete Roscas pequeñas 1kg', 'Roscas pequeñas sueltas'
       ];
       claves.forEach(nom => {
         if (!productos.some(p => p.nombre === nom)) {
@@ -619,7 +639,6 @@
       const recetasGuard = localStorage.getItem('almacen_recetas');
       recetas = recetasGuard ? JSON.parse(recetasGuard) : [...RECETAS_PREDEF];
       
-      // Asegurar que las recetas nuevas y productos estén presentes incluso con datos antiguos
       asegurarRecetasYProductos();
       
       const mapeo = { 'Ariana (Harina)': 'Harina', 'Mivovan variado': 'Micovan' };
@@ -732,7 +751,7 @@
     }
 
     function actualizarEstadoIngredientes() {
-      const claves = ['Harina', 'Azúcar', 'Manteca', 'Micovan', 'Bicarbonato', 'Levadura', 'Polvo de hornear', 'Esencias vainilla y anís', 'Bolsas 1k 22x60'];
+      const claves = ['Harina', 'Azúcar', 'Manteca', 'Micovan', 'Bicarbonato', 'Levadura', 'Polvo de hornear', 'Esencias vainilla y anís', 'Anís en granos', 'Bolsas 1k 22x60'];
       const lineas = claves.map(nom => { const p = encontrarProducto(nom); return p ? `${nom}: ${p.cantidad} ${p.unidad}` : `${nom}: no encontrado`; });
       estadoIngredientesDiv.innerHTML = lineas.join('<br>');
     }
