@@ -496,7 +496,7 @@
         },
         infoAdicional: '20 bandejas por saco de 45kg harina. Cada bandeja = 84 unidades. Paquetes de 10.'
       },
-      { // Catalinas pequeñas (NUEVA)
+      { // Catalinas pequeñas
         id: 'catalinas_pequenas',
         nombre: 'Catalinas pequeñas',
         unidadProduccion: 'bandejas',
@@ -591,19 +591,36 @@
       localStorage.setItem('almacen_recetas', JSON.stringify(recetas));
     }
 
-    function cargarDatos() {
-      const prodGuard = localStorage.getItem('almacen_productos');
-      productos = prodGuard ? JSON.parse(prodGuard) : [...PRODUCTOS_INICIALES];
-      const recetasGuard = localStorage.getItem('almacen_recetas');
-      recetas = recetasGuard ? JSON.parse(recetasGuard) : [...RECETAS_PREDEF];
-      
+    function asegurarRecetasYProductos() {
+      // Asegurar que todas las recetas predefinidas estén presentes
+      RECETAS_PREDEF.forEach(recetaPre => {
+        if (!recetas.some(r => r.id === recetaPre.id)) {
+          recetas.push(recetaPre);
+        }
+      });
+
+      // Asegurar productos clave
       const claves = [
         'Bolsas 1k 22x60', 'Catalinas sueltas (unidad)', 'Paquete Catalinas 1kg',
         'Paquete Polvorosas 1kg', 'Polvorosas sueltas (unidad)',
         'Paquete Cortaos 1kg', 'Cortaos sueltas (unidad)',
         'Paquete Catalinas pequeñas 1kg', 'Catalinas pequeñas sueltas'
       ];
-      claves.forEach(nom => { if (!productos.some(p => p.nombre === nom)) productos.push({ nombre: nom, cantidad: 0, unidad: 'unidades' }); });
+      claves.forEach(nom => {
+        if (!productos.some(p => p.nombre === nom)) {
+          productos.push({ nombre: nom, cantidad: 0, unidad: 'unidades' });
+        }
+      });
+    }
+
+    function cargarDatos() {
+      const prodGuard = localStorage.getItem('almacen_productos');
+      productos = prodGuard ? JSON.parse(prodGuard) : [...PRODUCTOS_INICIALES];
+      const recetasGuard = localStorage.getItem('almacen_recetas');
+      recetas = recetasGuard ? JSON.parse(recetasGuard) : [...RECETAS_PREDEF];
+      
+      // Asegurar que las recetas nuevas y productos estén presentes incluso con datos antiguos
+      asegurarRecetasYProductos();
       
       const mapeo = { 'Ariana (Harina)': 'Harina', 'Mivovan variado': 'Micovan' };
       productos = productos.map(p => mapeo[p.nombre] ? { ...p, nombre: mapeo[p.nombre] } : p);
