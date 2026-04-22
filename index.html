@@ -425,12 +425,12 @@
       { nombre: "Frutilla", cantidad: 2, unidad: "kg" },
       { nombre: "Paquete Catalinas 1kg", cantidad: 0, unidad: "unidades" },
       { nombre: "Catalinas sueltas (unidad)", cantidad: 0, unidad: "unidades" },
-      { nombre: "Paquete Catalinas pequeñas 24u", cantidad: 0, unidad: "unidades" },
-      { nombre: "Catalinas pequeñas sueltas", cantidad: 0, unidad: "unidades" },
       { nombre: "Paquete Polvorosas 1kg", cantidad: 0, unidad: "unidades" },
       { nombre: "Polvorosas sueltas (unidad)", cantidad: 0, unidad: "unidades" },
       { nombre: "Paquete Cortaos 1kg", cantidad: 0, unidad: "unidades" },
       { nombre: "Cortaos sueltas (unidad)", cantidad: 0, unidad: "unidades" },
+      { nombre: "Paquete Catalinas pequeñas 1kg", cantidad: 0, unidad: "unidades" },
+      { nombre: "Catalinas pequeñas sueltas", cantidad: 0, unidad: "unidades" },
       { nombre: "Pan de molde (unidad)", cantidad: 0, unidad: "unidades" }
     ];
 
@@ -455,26 +455,11 @@
         },
         infoAdicional: '70 bandejas = 1680 catalinas (168 paquetes). Gasto exacto: 45kg harina, 30kg azúcar, 1kg manteca, 1kg bicarbonato, 200g Micovan.'
       },
-      { // Catalinas pequeñas (NUEVA)
-        id: 'catalinas_pequenas', nombre: 'Catalinas pequeñas', unidadProduccion: 'bandejas', unidadesPorProduccion: 48,
-        ingredientes: [
-          { nombre: 'Harina', cantidad: 45 / 90, unidad: 'kg' },
-          { nombre: 'Azúcar', cantidad: 30 / 90, unidad: 'kg' },
-          { nombre: 'Bicarbonato', cantidad: 1 / 90, unidad: 'kg' },
-          { nombre: 'Manteca', cantidad: 1 / 90, unidad: 'kg' },
-          { nombre: 'Micovan', cantidad: 0.2 / 90, unidad: 'kg' }
-        ],
-        productoResultante: { 
-          tipo: 'compuesto', paquete: { nombre: 'Paquete Catalinas pequeñas 24u', unidadesPorPaquete: 24 }, 
-          suelto: { nombre: 'Catalinas pequeñas sueltas' }, insumoEmpaque: { nombre: 'Bolsas 1k 22x60', cantidadPorPaquete: 1 } 
-        },
-        infoAdicional: '90 bandejas por saco de 45kg harina. Cada bandeja = 48 unidades. Rinde 180 paquetes de 24 unidades.'
-      },
       { // Polvorosas blancas
         id: 'polvorosas',
         nombre: 'Polvorosas blancas',
         unidadProduccion: 'latas',
-        unidadesPorProduccion: 1600 / 66.6, // 24.024 unidades por lata (aprox)
+        unidadesPorProduccion: 1600 / 66.6,
         ingredientes: [
           { nombre: 'Harina', cantidad: 45 / 66.6, unidad: 'kg' },
           { nombre: 'Azúcar', cantidad: 25 / 66.6, unidad: 'kg' },
@@ -494,14 +479,14 @@
         id: 'cortaos',
         nombre: 'Cortaos',
         unidadProduccion: 'bandejas',
-        unidadesPorProduccion: 84, // 84 unidades por bandeja
+        unidadesPorProduccion: 84,
         ingredientes: [
           { nombre: 'Harina', cantidad: 45 / 20, unidad: 'kg' },
           { nombre: 'Azúcar', cantidad: 30 / 20, unidad: 'kg' },
           { nombre: 'Bicarbonato', cantidad: 1 / 20, unidad: 'kg' },
           { nombre: 'Manteca', cantidad: 1 / 20, unidad: 'kg' },
           { nombre: 'Micovan', cantidad: 0.2 / 20, unidad: 'kg' },
-          { nombre: 'Esencias vainilla y anís', cantidad: 0.2 / 20, unidad: 'kg' } // 200g por saco
+          { nombre: 'Esencias vainilla y anís', cantidad: 0.2 / 20, unidad: 'kg' }
         ],
         productoResultante: {
           tipo: 'compuesto',
@@ -510,6 +495,26 @@
           insumoEmpaque: { nombre: 'Bolsas 1k 22x60', cantidadPorPaquete: 1 }
         },
         infoAdicional: '20 bandejas por saco de 45kg harina. Cada bandeja = 84 unidades. Paquetes de 10.'
+      },
+      { // Catalinas pequeñas (NUEVA)
+        id: 'catalinas_pequenas',
+        nombre: 'Catalinas pequeñas',
+        unidadProduccion: 'bandejas',
+        unidadesPorProduccion: 48,
+        ingredientes: [
+          { nombre: 'Harina', cantidad: 45 / 90, unidad: 'kg' },
+          { nombre: 'Azúcar', cantidad: 30 / 90, unidad: 'kg' },
+          { nombre: 'Bicarbonato', cantidad: 1 / 90, unidad: 'kg' },
+          { nombre: 'Manteca', cantidad: 1 / 90, unidad: 'kg' },
+          { nombre: 'Micovan', cantidad: 0.2 / 90, unidad: 'kg' }
+        ],
+        productoResultante: {
+          tipo: 'compuesto',
+          paquete: { nombre: 'Paquete Catalinas pequeñas 1kg', unidadesPorPaquete: 24 },
+          suelto: { nombre: 'Catalinas pequeñas sueltas' },
+          insumoEmpaque: { nombre: 'Bolsas 1k 22x60', cantidadPorPaquete: 1 }
+        },
+        infoAdicional: '90 bandejas por saco de 45kg harina. 1 saco = 4320 unidades = 180 paquetes (24 unid/paquete).'
       }
     ];
 
@@ -517,7 +522,7 @@
     let recetas = [];
     let recetaActual = null;
     let ingredientesTemporales = [];
-    let prodEditando = null; // Para el nuevo modal
+    let prodEditando = null;
 
     // DOM
     const listaProductosEl = document.getElementById('lista-productos');
@@ -571,7 +576,6 @@
     const unidadIngresoLabel = document.getElementById('unidad-ingreso-label');
     const guardarIngresoBtn = document.getElementById('guardar-ingreso');
 
-
     recetaUnidad.addEventListener('input', () => {
       labelUnidadBase.textContent = recetaUnidad.value || 'unidad';
     });
@@ -593,12 +597,11 @@
       const recetasGuard = localStorage.getItem('almacen_recetas');
       recetas = recetasGuard ? JSON.parse(recetasGuard) : [...RECETAS_PREDEF];
       
-      // Asegurar productos de recetas
       const claves = [
         'Bolsas 1k 22x60', 'Catalinas sueltas (unidad)', 'Paquete Catalinas 1kg',
         'Paquete Polvorosas 1kg', 'Polvorosas sueltas (unidad)',
         'Paquete Cortaos 1kg', 'Cortaos sueltas (unidad)',
-        'Paquete Catalinas pequeñas 24u', 'Catalinas pequeñas sueltas'
+        'Paquete Catalinas pequeñas 1kg', 'Catalinas pequeñas sueltas'
       ];
       claves.forEach(nom => { if (!productos.some(p => p.nombre === nom)) productos.push({ nombre: nom, cantidad: 0, unidad: 'unidades' }); });
       
@@ -660,8 +663,7 @@
         cardConversion.style.display = 'block';
         const sueltoNom = recetaActual.productoResultante.suelto.nombre;
         const paqueteNom = recetaActual.productoResultante.paquete.nombre;
-        const up = recetaActual.productoResultante.paquete.unidadesPorPaquete;
-        infoConversion.textContent = `Convierte ${up} ${sueltoNom} en 1 ${paqueteNom} (usa 1 bolsa).`;
+        infoConversion.textContent = `Convierte ${recetaActual.productoResultante.paquete.unidadesPorPaquete} ${sueltoNom} en 1 ${paqueteNom} (usa 1 bolsa).`;
         const sueltasProd = encontrarProducto(sueltoNom);
         estadoSueltasDiv.innerHTML = `${sueltoNom}: ${sueltasProd ? sueltasProd.cantidad : 0} unidades`;
       } else {
@@ -871,7 +873,7 @@
       mostrarToast(`✅ Producción completada`, 2000);
     }
 
-    // ---------- LÓGICA DEL NUEVO MODAL ELEGANTE ----------
+    // ---------- MODAL INGRESO ----------
     function abrirModalIngreso(nombre) {
       prodEditando = encontrarProducto(nombre);
       if (!prodEditando) return;
@@ -881,7 +883,6 @@
       cantidadIngreso.value = '';
       accionIngresoSelect.value = 'sumar';
 
-      // Detectar si es Harina o Azúcar para habilitar Sacos
       if (nombre === 'Harina' || nombre === 'Azúcar') {
         opcionesSacosDiv.style.display = 'block';
         formaIngresoSelect.innerHTML = `
@@ -927,7 +928,6 @@
       const accion = accionIngresoSelect.value;
       let cantidadKilosFinales = valor;
 
-      // Si eligió Sacos, multiplicamos por el peso del saco correspondiente
       if (forma === 'sacos') {
         cantidadKilosFinales = valor * PESO_POR_SACO[prodEditando.nombre];
       }
@@ -945,7 +945,6 @@
       actualizarVistaReceta();
       cerrarModalIngreso();
     });
-    // -----------------------------------------------------
 
     function descontarRapido(nombre) {
       const prod = encontrarProducto(nombre);
@@ -976,7 +975,6 @@
       }));
       buscarInput.addEventListener('input', e => renderizarProductos(e.target.value));
       
-      // AQUI cambiamos editarProducto por la nueva función del Modal
       listaProductosEl.addEventListener('click', e => {
         const btn = e.target.closest('button'); if (!btn) return;
         const nombre = btn.dataset.nombre;
@@ -1003,22 +1001,17 @@
       btnProduccion.addEventListener('click', ejecutarProduccion);
       btnConvertirSueltas.addEventListener('click', () => {
         if (!recetaActual || recetaActual.productoResultante.tipo !== 'compuesto') return;
+        const up = recetaActual.productoResultante.paquete.unidadesPorPaquete;
         const suelto = encontrarProducto(recetaActual.productoResultante.suelto.nombre);
         const paquete = encontrarProducto(recetaActual.productoResultante.paquete.nombre);
         const bolsa = recetaActual.productoResultante.insumoEmpaque ? encontrarProducto(recetaActual.productoResultante.insumoEmpaque.nombre) : null;
-        
-        // --- MEJORA: Ahora lee la cantidad de la receta en lugar de tener un "10" estático ---
-        const unidadesRequeridas = recetaActual.productoResultante.paquete.unidadesPorPaquete;
-        
-        if (!suelto || suelto.cantidad < unidadesRequeridas) { mostrarToast(`Necesitas ${unidadesRequeridas} sueltas`); return; }
+        if (!suelto || suelto.cantidad < up) { mostrarToast(`Necesitas ${up} sueltas`); return; }
         if (bolsa && bolsa.cantidad < 1) { mostrarToast('Falta bolsa'); return; }
-        
-        suelto.cantidad -= unidadesRequeridas;
+        suelto.cantidad -= up;
         if (bolsa) bolsa.cantidad -= 1;
         paquete.cantidad += 1;
-        
         guardarDatos(); renderizarProductos(''); actualizarVistaReceta();
-        mostrarToast(`Convertido ${unidadesRequeridas} sueltas en 1 paquete`);
+        mostrarToast(`Convertido ${up} sueltas en 1 paquete`);
       });
       btnVenta.addEventListener('click', () => {
         const nombre = productVentaSelect.value; if (!nombre) return;
@@ -1031,7 +1024,6 @@
         cantidadVenta.value = 1;
       });
       
-      // Listeners modales
       btnAgregarReceta.addEventListener('click', abrirModal);
       cerrarModal.addEventListener('click', cerrarModalFn);
       cancelarReceta.addEventListener('click', cerrarModalFn);
