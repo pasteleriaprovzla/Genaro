@@ -433,6 +433,8 @@
       { nombre: "Catalinas pequeñas sueltas", cantidad: 0, unidad: "unidades" },
       { nombre: "Paquete Roscas pequeñas 1kg", cantidad: 0, unidad: "unidades" },
       { nombre: "Roscas pequeñas sueltas", cantidad: 0, unidad: "unidades" },
+      { nombre: "Paquete Pan andino 1kg", cantidad: 0, unidad: "unidades" },
+      { nombre: "Pan andino sueltas", cantidad: 0, unidad: "unidades" },
       { nombre: "Pan de molde (unidad)", cantidad: 0, unidad: "unidades" }
     ];
 
@@ -440,7 +442,7 @@
     const FACTORES = { 'kg': 1000, 'g': 1, 'mg': 0.001, 'L': 1000 };
     const PESO_POR_SACO = { 'Harina': 45, 'Azúcar': 50 };
 
-    // ---------- RECETAS PREDEFINIDAS (5 recetas) ----------
+    // ---------- RECETAS PREDEFINIDAS (6 recetas) ----------
     const RECETAS_PREDEF = [
       { // Catalinas
         id: 'catalinas', nombre: 'Catalinas', unidadProduccion: 'bandejas', unidadesPorProduccion: 24,
@@ -518,11 +520,11 @@
         },
         infoAdicional: '90 bandejas por saco de 45kg harina. 1 saco = 4320 unidades = 180 paquetes (24 unid/paquete).'
       },
-      { // Roscas pequeñas (NUEVA)
+      { // Roscas pequeñas
         id: 'roscas_pequenas',
         nombre: 'Roscas pequeñas',
         unidadProduccion: 'latas',
-        unidadesPorProduccion: 35, // 35 unidades por lata
+        unidadesPorProduccion: 35,
         ingredientes: [
           { nombre: 'Harina', cantidad: 45 / 113, unidad: 'kg' },
           { nombre: 'Azúcar', cantidad: 11 / 113, unidad: 'kg' },
@@ -533,9 +535,29 @@
           tipo: 'compuesto',
           paquete: { nombre: 'Paquete Roscas pequeñas 1kg', unidadesPorPaquete: 24 },
           suelto: { nombre: 'Roscas pequeñas sueltas' },
-          insumoEmpaque: { nombre: 'Bolsas 1k 22x60', cantidadPorPaquete: 1 }
+          insumoEmpaque: { nombre: 'Bolsas 24x60', cantidadPorPaquete: 1 }
         },
         infoAdicional: '113 latas por saco de 45kg harina. Cada lata = 35 unidades. Paquetes de 24 unidades.'
+      },
+      { // Pan andino (NUEVA)
+        id: 'pan_andino',
+        nombre: 'Pan andino',
+        unidadProduccion: 'bandejas',
+        unidadesPorProduccion: 5, // 5 panes por bandeja
+        ingredientes: [
+          { nombre: 'Harina', cantidad: 45 / 60, unidad: 'kg' },
+          { nombre: 'Azúcar', cantidad: 11 / 60, unidad: 'kg' },
+          { nombre: 'Manteca', cantidad: 1 / 60, unidad: 'kg' },
+          { nombre: 'Levadura', cantidad: 0.1 / 60, unidad: 'kg' }, // 100 g = 0.1 kg
+          { nombre: 'Micovan', cantidad: 0.25 / 60, unidad: 'kg' }   // 250 g = 0.25 kg
+        ],
+        productoResultante: {
+          tipo: 'compuesto',
+          paquete: { nombre: 'Paquete Pan andino 1kg', unidadesPorPaquete: 2 }, // 2 panes por paquete
+          suelto: { nombre: 'Pan andino sueltas' },
+          insumoEmpaque: { nombre: 'Bolsas 1k 22x60', cantidadPorPaquete: 1 }
+        },
+        infoAdicional: '60 bandejas por saco de 45kg harina. Cada bandeja = 5 panes. Paquetes de 2 panes.'
       }
     ];
 
@@ -620,11 +642,13 @@
       });
 
       const claves = [
-        'Bolsas 1k 22x60', 'Catalinas sueltas (unidad)', 'Paquete Catalinas 1kg',
+        'Bolsas 1k 22x60', 'Bolsas 24x60',
+        'Catalinas sueltas (unidad)', 'Paquete Catalinas 1kg',
         'Paquete Polvorosas 1kg', 'Polvorosas sueltas (unidad)',
         'Paquete Cortaos 1kg', 'Cortaos sueltas (unidad)',
         'Paquete Catalinas pequeñas 1kg', 'Catalinas pequeñas sueltas',
-        'Paquete Roscas pequeñas 1kg', 'Roscas pequeñas sueltas'
+        'Paquete Roscas pequeñas 1kg', 'Roscas pequeñas sueltas',
+        'Paquete Pan andino 1kg', 'Pan andino sueltas'
       ];
       claves.forEach(nom => {
         if (!productos.some(p => p.nombre === nom)) {
@@ -751,7 +775,7 @@
     }
 
     function actualizarEstadoIngredientes() {
-      const claves = ['Harina', 'Azúcar', 'Manteca', 'Micovan', 'Bicarbonato', 'Levadura', 'Polvo de hornear', 'Esencias vainilla y anís', 'Anís en granos', 'Bolsas 1k 22x60'];
+      const claves = ['Harina', 'Azúcar', 'Manteca', 'Micovan', 'Bicarbonato', 'Levadura', 'Polvo de hornear', 'Esencias vainilla y anís', 'Anís en granos', 'Bolsas 1k 22x60', 'Bolsas 24x60'];
       const lineas = claves.map(nom => { const p = encontrarProducto(nom); return p ? `${nom}: ${p.cantidad} ${p.unidad}` : `${nom}: no encontrado`; });
       estadoIngredientesDiv.innerHTML = lineas.join('<br>');
     }
