@@ -402,7 +402,7 @@
   (function(){
     "use strict";
 
-    // ---------- PRODUCTOS INICIALES ----------
+    // ---------- PRODUCTOS INICIALES (CORREGIDOS: BOLSAS SEPARADAS) ----------
     const PRODUCTOS_INICIALES = [
       { nombre: "Harina", cantidad: 120, unidad: "kg" },
       { nombre: "Azúcar", cantidad: 80, unidad: "kg" },
@@ -415,8 +415,8 @@
       { nombre: "Guayaba", cantidad: 15, unidad: "kg" },
       { nombre: "Arequipe (Tobo)", cantidad: 10, unidad: "kg" },
       { nombre: "Levadura", cantidad: 2, unidad: "kg" },
-      { nombre: "Bolsas 1k 22x60", cantidad: 400, unidad: "unidades" },
-      { nombre: "Bolsas 20x50", cantidad: 200, unidad: "unidades" },
+      { nombre: "Bolsas 1k", cantidad: 400, unidad: "unidades" },
+      { nombre: "Bolsas 22x60", cantidad: 200, unidad: "unidades" },
       { nombre: "Bolsas 24x60", cantidad: 150, unidad: "unidades" },
       { nombre: "Bolsas 4k transparente", cantidad: 80, unidad: "unidades" },
       { nombre: "Anís en granos", cantidad: 3, unidad: "kg" },
@@ -442,9 +442,9 @@
     const FACTORES = { 'kg': 1000, 'g': 1, 'mg': 0.001, 'L': 1000 };
     const PESO_POR_SACO = { 'Harina': 45, 'Azúcar': 50 };
 
-    // ---------- RECETAS PREDEFINIDAS (6 recetas) ----------
+    // ---------- RECETAS PREDEFINIDAS (6 recetas, bolsas corregidas) ----------
     const RECETAS_PREDEF = [
-      { // Catalinas
+      { // Catalinas → Bolsas 1k
         id: 'catalinas', nombre: 'Catalinas', unidadProduccion: 'bandejas', unidadesPorProduccion: 24,
         ingredientes: [
           { nombre: 'Harina', cantidad: 45 / 70, unidad: 'kg' },
@@ -455,11 +455,11 @@
         ],
         productoResultante: { 
           tipo: 'compuesto', paquete: { nombre: 'Paquete Catalinas 1kg', unidadesPorPaquete: 10 }, 
-          suelto: { nombre: 'Catalinas sueltas (unidad)' }, insumoEmpaque: { nombre: 'Bolsas 1k 22x60', cantidadPorPaquete: 1 } 
+          suelto: { nombre: 'Catalinas sueltas (unidad)' }, insumoEmpaque: { nombre: 'Bolsas 1k', cantidadPorPaquete: 1 } 
         },
         infoAdicional: '70 bandejas = 1680 catalinas (168 paquetes). Gasto exacto: 45kg harina, 30kg azúcar, 1kg manteca, 1kg bicarbonato, 200g Micovan.'
       },
-      { // Polvorosas blancas
+      { // Polvorosas → Bolsas 1k
         id: 'polvorosas',
         nombre: 'Polvorosas blancas',
         unidadProduccion: 'latas',
@@ -475,11 +475,11 @@
           tipo: 'compuesto',
           paquete: { nombre: 'Paquete Polvorosas 1kg', unidadesPorPaquete: 10 },
           suelto: { nombre: 'Polvorosas sueltas (unidad)' },
-          insumoEmpaque: { nombre: 'Bolsas 1k 22x60', cantidadPorPaquete: 1 }
+          insumoEmpaque: { nombre: 'Bolsas 1k', cantidadPorPaquete: 1 }
         },
         infoAdicional: '66.6 latas por saco de 45kg harina. 1 saco = 1600 unidades = 160 paquetes.'
       },
-      { // Cortaos
+      { // Cortaos → Bolsas 1k
         id: 'cortaos',
         nombre: 'Cortaos',
         unidadProduccion: 'bandejas',
@@ -496,11 +496,11 @@
           tipo: 'compuesto',
           paquete: { nombre: 'Paquete Cortaos 1kg', unidadesPorPaquete: 10 },
           suelto: { nombre: 'Cortaos sueltas (unidad)' },
-          insumoEmpaque: { nombre: 'Bolsas 1k 22x60', cantidadPorPaquete: 1 }
+          insumoEmpaque: { nombre: 'Bolsas 1k', cantidadPorPaquete: 1 }
         },
         infoAdicional: '20 bandejas por saco de 45kg harina. Cada bandeja = 84 unidades. Paquetes de 10.'
       },
-      { // Catalinas pequeñas
+      { // Catalinas pequeñas → Bolsas 1k
         id: 'catalinas_pequenas',
         nombre: 'Catalinas pequeñas',
         unidadProduccion: 'bandejas',
@@ -516,11 +516,11 @@
           tipo: 'compuesto',
           paquete: { nombre: 'Paquete Catalinas pequeñas 1kg', unidadesPorPaquete: 24 },
           suelto: { nombre: 'Catalinas pequeñas sueltas' },
-          insumoEmpaque: { nombre: 'Bolsas 1k 22x60', cantidadPorPaquete: 1 }
+          insumoEmpaque: { nombre: 'Bolsas 1k', cantidadPorPaquete: 1 }
         },
         infoAdicional: '90 bandejas por saco de 45kg harina. 1 saco = 4320 unidades = 180 paquetes (24 unid/paquete).'
       },
-      { // Roscas pequeñas
+      { // Roscas pequeñas → Bolsas 24x60
         id: 'roscas_pequenas',
         nombre: 'Roscas pequeñas',
         unidadProduccion: 'latas',
@@ -539,23 +539,23 @@
         },
         infoAdicional: '113 latas por saco de 45kg harina. Cada lata = 35 unidades. Paquetes de 24 unidades.'
       },
-      { // Pan andino (NUEVA)
+      { // Pan andino → Bolsas 22x60
         id: 'pan_andino',
         nombre: 'Pan andino',
         unidadProduccion: 'bandejas',
-        unidadesPorProduccion: 5, // 5 panes por bandeja
+        unidadesPorProduccion: 5,
         ingredientes: [
           { nombre: 'Harina', cantidad: 45 / 60, unidad: 'kg' },
           { nombre: 'Azúcar', cantidad: 11 / 60, unidad: 'kg' },
           { nombre: 'Manteca', cantidad: 1 / 60, unidad: 'kg' },
-          { nombre: 'Levadura', cantidad: 0.1 / 60, unidad: 'kg' }, // 100 g = 0.1 kg
-          { nombre: 'Micovan', cantidad: 0.25 / 60, unidad: 'kg' }   // 250 g = 0.25 kg
+          { nombre: 'Levadura', cantidad: 0.1 / 60, unidad: 'kg' },
+          { nombre: 'Micovan', cantidad: 0.25 / 60, unidad: 'kg' }
         ],
         productoResultante: {
           tipo: 'compuesto',
-          paquete: { nombre: 'Paquete Pan andino 1kg', unidadesPorPaquete: 2 }, // 2 panes por paquete
+          paquete: { nombre: 'Paquete Pan andino 1kg', unidadesPorPaquete: 2 },
           suelto: { nombre: 'Pan andino sueltas' },
-          insumoEmpaque: { nombre: 'Bolsas 1k 22x60', cantidadPorPaquete: 1 }
+          insumoEmpaque: { nombre: 'Bolsas 22x60', cantidadPorPaquete: 1 }
         },
         infoAdicional: '60 bandejas por saco de 45kg harina. Cada bandeja = 5 panes. Paquetes de 2 panes.'
       }
@@ -642,7 +642,7 @@
       });
 
       const claves = [
-        'Bolsas 1k 22x60', 'Bolsas 24x60',
+        'Bolsas 1k', 'Bolsas 22x60', 'Bolsas 24x60',
         'Catalinas sueltas (unidad)', 'Paquete Catalinas 1kg',
         'Paquete Polvorosas 1kg', 'Polvorosas sueltas (unidad)',
         'Paquete Cortaos 1kg', 'Cortaos sueltas (unidad)',
@@ -775,7 +775,7 @@
     }
 
     function actualizarEstadoIngredientes() {
-      const claves = ['Harina', 'Azúcar', 'Manteca', 'Micovan', 'Bicarbonato', 'Levadura', 'Polvo de hornear', 'Esencias vainilla y anís', 'Anís en granos', 'Bolsas 1k 22x60', 'Bolsas 24x60'];
+      const claves = ['Harina', 'Azúcar', 'Manteca', 'Micovan', 'Bicarbonato', 'Levadura', 'Polvo de hornear', 'Esencias vainilla y anís', 'Anís en granos', 'Bolsas 1k', 'Bolsas 22x60', 'Bolsas 24x60'];
       const lineas = claves.map(nom => { const p = encontrarProducto(nom); return p ? `${nom}: ${p.cantidad} ${p.unidad}` : `${nom}: no encontrado`; });
       estadoIngredientesDiv.innerHTML = lineas.join('<br>');
     }
