@@ -31,47 +31,29 @@
     .app-header h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.5px; color: #1c1c1e; }
     .app-container { max-width: 500px; margin: 0 auto; background: #f2f2f7; min-height: 100vh; }
     .tab-bar {
-      display: flex;
-      margin: 12px 20px 18px;
-      background: #e5e5ea;
-      border-radius: 30px;
-      padding: 4px;
+      display: flex; margin: 12px 20px 18px;
+      background: #e5e5ea; border-radius: 30px; padding: 4px;
     }
     .tab {
-      flex: 1;
-      text-align: center;
-      padding: 10px 0;
-      font-weight: 600;
-      font-size: 16px;
-      color: #3a3a3c;
-      border-radius: 26px;
-      transition: all 0.2s;
-      cursor: pointer;
-      background: transparent;
-      border: none;
+      flex: 1; text-align: center; padding: 10px 0; font-weight: 600; font-size: 16px;
+      color: #3a3a3c; border-radius: 26px; transition: all 0.2s; cursor: pointer;
+      background: transparent; border: none;
     }
     .tab.active { background: #ffffff; color: #007aff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
     .tab i { margin-right: 6px; }
     .section { display: none; padding: 0 20px 20px; }
     .section.active { display: block; }
     .card {
-      background: #ffffff;
-      border-radius: 16px;
-      padding: 16px;
-      margin-bottom: 18px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
-      border: 1px solid #e9e9ef;
+      background: #ffffff; border-radius: 16px; padding: 16px; margin-bottom: 18px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04); border: 1px solid #e9e9ef;
     }
     .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
     .card-header h3 { font-size: 18px; font-weight: 600; color: #1c1c1e; }
     .badge { background: #007aff; color: white; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 500; }
     .product-list { list-style: none; }
     .product-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 0;
-      border-bottom: 1px solid #f0f0f3;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 0; border-bottom: 1px solid #f0f0f3;
     }
     .product-item:last-child { border-bottom: none; }
     .product-info { flex: 1; }
@@ -80,84 +62,36 @@
     .product-unit { font-size: 15px; font-weight: 400; color: #8e8e93; margin-left: 4px; }
     .product-actions { display: flex; gap: 12px; }
     .icon-btn {
-      background: #f2f2f7;
-      border: none;
-      width: 44px;
-      height: 44px;
-      border-radius: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #007aff;
-      font-size: 20px;
-      cursor: pointer;
-      transition: 0.2s;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      background: #f2f2f7; border: none; width: 44px; height: 44px; border-radius: 30px;
+      display: flex; align-items: center; justify-content: center; color: #007aff;
+      font-size: 20px; cursor: pointer; transition: 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
     .icon-btn:active { background: #e3e3e8; transform: scale(0.96); }
     .icon-btn.danger { color: #ff3b30; }
     .quick-form { display: flex; gap: 8px; margin-top: 16px; align-items: center; }
     .input-field {
-      flex: 1;
-      background: #f8f8fc;
-      border: 1px solid #d9d9e3;
-      border-radius: 12px;
-      padding: 14px 16px;
-      font-size: 16px;
-      font-family: inherit;
-      outline: none;
-      transition: border 0.2s;
+      flex: 1; background: #f8f8fc; border: 1px solid #d9d9e3; border-radius: 12px;
+      padding: 14px 16px; font-size: 16px; font-family: inherit; outline: none; transition: border 0.2s;
     }
     .input-field:focus { border-color: #007aff; }
     .select-unit {
-      background: #f8f8fc;
-      border: 1px solid #d9d9e3;
-      border-radius: 12px;
-      padding: 14px 12px;
-      font-size: 16px;
-      font-family: inherit;
-      outline: none;
+      background: #f8f8fc; border: 1px solid #d9d9e3; border-radius: 12px;
+      padding: 14px 12px; font-size: 16px; font-family: inherit; outline: none;
     }
     .btn {
-      background: #007aff;
-      color: white;
-      border: none;
-      padding: 14px 20px;
-      border-radius: 14px;
-      font-weight: 600;
-      font-size: 16px;
-      cursor: pointer;
-      transition: 0.2s;
-      box-shadow: 0 2px 8px rgba(0,122,255,0.2);
-      white-space: nowrap;
+      background: #007aff; color: white; border: none; padding: 14px 20px; border-radius: 14px;
+      font-weight: 600; font-size: 16px; cursor: pointer; transition: 0.2s;
+      box-shadow: 0 2px 8px rgba(0,122,255,0.2); white-space: nowrap;
     }
     .btn:active { background: #005bbf; transform: scale(0.98); }
-    .btn-outline {
-      background: transparent;
-      color: #007aff;
-      box-shadow: none;
-      border: 1.5px solid #007aff;
-    }
+    .btn-outline { background: transparent; color: #007aff; box-shadow: none; border: 1.5px solid #007aff; }
     .recipe-box { background: #f8f8fc; border-radius: 16px; padding: 16px; margin: 16px 0; }
     .recipe-title { font-weight: 700; margin-bottom: 12px; font-size: 18px; }
     .ingredient-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed #d1d1d6; }
     .toast-message {
-      position: fixed;
-      bottom: 30px;
-      left: 20px;
-      right: 20px;
-      background: #1c1c1e;
-      color: white;
-      padding: 14px 20px;
-      border-radius: 40px;
-      font-weight: 500;
-      text-align: center;
-      opacity: 0;
-      transition: opacity 0.2s;
-      pointer-events: none;
-      max-width: 500px;
-      margin: 0 auto;
-      z-index: 1000;
+      position: fixed; bottom: 30px; left: 20px; right: 20px; background: #1c1c1e; color: white;
+      padding: 14px 20px; border-radius: 40px; font-weight: 500; text-align: center;
+      opacity: 0; transition: opacity 0.2s; pointer-events: none; max-width: 500px; margin: 0 auto; z-index: 1000;
     }
     .toast-message.show { opacity: 1; }
     .empty-state { text-align: center; color: #8e8e93; padding: 30px; font-size: 16px; }
@@ -165,66 +99,27 @@
     .mt-3 { margin-top: 16px; }
     .text-small { font-size: 14px; color: #8e8e93; }
     .resumen-produccion {
-      background: #e9f0ff;
-      border-radius: 12px;
-      padding: 12px;
-      margin: 12px 0;
-      font-weight: 500;
+      background: #e9f0ff; border-radius: 12px; padding: 12px; margin: 12px 0; font-weight: 500;
     }
     /* Modal overlay */
     .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.4);
-      backdrop-filter: blur(4px);
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      z-index: 2000;
-      visibility: hidden;
-      opacity: 0;
-      transition: 0.2s;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(4px); display: flex; align-items: flex-end; justify-content: center;
+      z-index: 2000; visibility: hidden; opacity: 0; transition: 0.2s;
     }
-    .modal-overlay.active {
-      visibility: visible;
-      opacity: 1;
-    }
+    .modal-overlay.active { visibility: visible; opacity: 1; }
     .modal-sheet {
-      background: #ffffff;
-      width: 100%;
-      max-width: 500px;
-      border-radius: 24px 24px 0 0;
-      padding: 20px 20px 30px;
-      max-height: 90vh;
-      overflow-y: auto;
-      transform: translateY(100%);
-      transition: transform 0.3s ease;
+      background: #ffffff; width: 100%; max-width: 500px; border-radius: 24px 24px 0 0;
+      padding: 20px 20px 30px; max-height: 90vh; overflow-y: auto;
+      transform: translateY(100%); transition: transform 0.3s ease;
     }
-    .modal-overlay.active .modal-sheet {
-      transform: translateY(0);
-    }
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
+    .modal-overlay.active .modal-sheet { transform: translateY(0); }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
     .modal-title { font-size: 20px; font-weight: 700; }
     .close-modal { background: none; border: none; font-size: 24px; color: #007aff; cursor: pointer; }
-    .ingredient-selector-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
+    .ingredient-selector-item { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
     .delete-btn {
-      background: #ff3b30;
-      color: white;
-      border: none;
-      width: 36px;
-      height: 36px;
-      border-radius: 30px;
-      font-size: 16px;
+      background: #ff3b30; color: white; border: none; width: 36px; height: 36px; border-radius: 30px; font-size: 16px;
     }
   </style>
 </head>
@@ -254,7 +149,6 @@
         <input type="text" id="buscar-producto" placeholder="🔍 Buscar..." class="input-field" style="padding: 12px;">
       </div>
     </div>
-
     <div class="card">
       <h3 style="margin-bottom: 12px; font-size: 18px;">Ajuste rápido</h3>
       <div class="flex-row" style="gap: 6px;">
@@ -275,29 +169,23 @@
         <h3><i class="fas fa-cookie-bite"></i> Producir</h3>
         <button class="icon-btn" id="btn-agregar-receta" style="background: #007aff; color: white;"><i class="fas fa-plus"></i></button>
       </div>
-
       <div class="flex-row" style="margin-bottom: 16px;">
         <label style="font-weight: 500;">Receta:</label>
         <select id="receta-select" class="select-unit" style="flex:1;"></select>
       </div>
-
       <div class="flex-row" style="margin-bottom: 16px;">
         <label style="font-weight: 500;" id="label-cantidad">Cantidad:</label>
         <input type="number" id="cantidad-produccion" class="input-field" style="width: 120px;" value="70" min="0.01" step="0.01">
       </div>
-
       <div id="resumen-produccion" class="resumen-produccion"></div>
       <div class="recipe-box" id="receta-dinamica"></div>
       <p class="text-small" style="margin-bottom: 12px;" id="info-adicional-receta"></p>
-
       <button class="btn" id="ejecutar-produccion" style="width: 100%;"><i class="fas fa-play"></i> Producir</button>
-      
       <div style="margin-top: 24px;">
         <h4 style="margin-bottom: 8px;">📦 Estado ingredientes</h4>
         <div id="estado-ingredientes" class="text-small"></div>
       </div>
     </div>
-
     <div class="card" id="card-conversion" style="display: none;">
       <div class="card-header">
         <h3><i class="fas fa-cubes"></i> Convertir sueltas</h3>
@@ -306,7 +194,6 @@
       <button class="btn-outline btn" id="convertir-sueltas" style="margin-top: 8px;"><i class="fas fa-exchange-alt"></i> Empaquetar</button>
       <div id="estado-sueltas" class="text-small mt-3"></div>
     </div>
-
     <div class="card">
       <div class="card-header">
         <h3><i class="fas fa-shopping-cart"></i> Vender</h3>
@@ -327,21 +214,17 @@
       </div>
       <div id="form-receta">
         <input type="text" id="receta-nombre" placeholder="Nombre del producto (ej. Pan francés)" class="input-field" style="margin-bottom: 12px;">
-        
         <div class="flex-row" style="margin-bottom: 12px;">
           <input type="text" id="receta-unidad" placeholder="ej. kg de harina, bandejas, litros…" class="input-field" value="kg de harina">
         </div>
-        
         <div class="flex-row" style="margin-bottom: 16px;">
           <label>Unidades finales por </label>
           <input type="number" id="receta-unidades-por-base" class="input-field" style="width: 100px;" value="200" min="1" step="1">
           <span id="label-unidad-base">kg de harina</span>
         </div>
-
         <h4 style="margin: 16px 0 8px;">Ingredientes</h4>
         <div id="lista-ingredientes-receta"></div>
         <button class="btn-outline btn" id="agregar-ingrediente" style="margin: 12px 0;"><i class="fas fa-plus"></i> Agregar ingrediente</button>
-
         <h4 style="margin: 16px 0 8px;">Empaque (opcional)</h4>
         <div class="flex-row">
           <label style="width: 80px;">Paquete de</label>
@@ -368,13 +251,10 @@
       </div>
       <div id="form-ingreso">
         <p style="margin-bottom: 16px; font-size: 15px; color: #8e8e93;" id="desc-modal-ingreso"></p>
-
         <div id="opciones-sacos" style="margin-bottom: 16px; display: none;">
           <label style="font-weight: 500; display: block; margin-bottom: 8px; color: #1c1c1e;">¿Cómo llegó la mercancía?</label>
-          <select id="forma-ingreso" class="select-unit" style="width: 100%; border-color: #007aff; background: #e9f0ff; color: #007aff; font-weight: 600;">
-            </select>
+          <select id="forma-ingreso" class="select-unit" style="width: 100%; border-color: #007aff; background: #e9f0ff; color: #007aff; font-weight: 600;"></select>
         </div>
-
         <div style="margin-bottom: 16px;">
           <label style="font-weight: 500; display: block; margin-bottom: 8px; color: #1c1c1e;">Acción a realizar:</label>
           <select id="accion-ingreso" class="select-unit" style="width: 100%;">
@@ -382,7 +262,6 @@
             <option value="reemplazar">🔄 Reemplazar total (Conteo físico)</option>
           </select>
         </div>
-
         <label style="font-weight: 500; display: block; margin-bottom: 8px; color: #1c1c1e;">Cantidad:</label>
         <div class="flex-row" style="margin-bottom: 16px;">
           <input type="number" id="cantidad-ingreso" class="input-field" placeholder="Ingresa la cantidad..." min="0" step="any">
@@ -411,6 +290,7 @@
       { nombre: "Bicarbonato", cantidad: 8, unidad: "kg" },
       { nombre: "Polvo de hornear", cantidad: 3, unidad: "kg" },
       { nombre: "Esencias vainilla y anís", cantidad: 500, unidad: "g" },
+      { nombre: "Sabor vainilla", cantidad: 0.5, unidad: "kg" },
       { nombre: "Colorante", cantidad: 250, unidad: "g" },
       { nombre: "Guayaba", cantidad: 15, unidad: "kg" },
       { nombre: "Arequipe (Tobo)", cantidad: 10, unidad: "kg" },
@@ -418,6 +298,8 @@
       { nombre: "Bolsas 1k", cantidad: 400, unidad: "unidades" },
       { nombre: "Bolsas 22x60", cantidad: 200, unidad: "unidades" },
       { nombre: "Bolsas 24x60", cantidad: 150, unidad: "unidades" },
+      { nombre: "Bolsas 20x50", cantidad: 200, unidad: "unidades" },
+      { nombre: "Bolsas canilla 3", cantidad: 100, unidad: "unidades" },
       { nombre: "Anís en granos", cantidad: 3, unidad: "kg" },
       { nombre: "Sal", cantidad: 12, unidad: "kg" },
       { nombre: "Coco", cantidad: 5, unidad: "kg" },
@@ -434,6 +316,18 @@
       { nombre: "Roscas pequeñas sueltas", cantidad: 0, unidad: "unidades" },
       { nombre: "Paquete Pan andino 1kg", cantidad: 0, unidad: "unidades" },
       { nombre: "Pan andino sueltas", cantidad: 0, unidad: "unidades" },
+      { nombre: "Paquete Pan de guayaba 1kg", cantidad: 0, unidad: "unidades" },
+      { nombre: "Pan de guayaba sueltas", cantidad: 0, unidad: "unidades" },
+      { nombre: "Paquete Pan salado 1kg", cantidad: 0, unidad: "unidades" },
+      { nombre: "Pan salado sueltas", cantidad: 0, unidad: "unidades" },
+      { nombre: "Paquete Pan francés 1kg", cantidad: 0, unidad: "unidades" },
+      { nombre: "Pan francés sueltas", cantidad: 0, unidad: "unidades" },
+      { nombre: "Paquete Pan siciliano 1kg", cantidad: 0, unidad: "unidades" },
+      { nombre: "Pan siciliano sueltas", cantidad: 0, unidad: "unidades" },
+      { nombre: "Paquete Pan campesino 1kg", cantidad: 0, unidad: "unidades" },
+      { nombre: "Pan campesino sueltas", cantidad: 0, unidad: "unidades" },
+      { nombre: "Paquete Lenguas 1kg", cantidad: 0, unidad: "unidades" },
+      { nombre: "Lenguas sueltas", cantidad: 0, unidad: "unidades" },
       { nombre: "Pan de molde (unidad)", cantidad: 0, unidad: "unidades" }
     ];
 
@@ -441,9 +335,9 @@
     const FACTORES = { 'kg': 1000, 'g': 1, 'mg': 0.001, 'L': 1000 };
     const PESO_POR_SACO = { 'Harina': 45, 'Azúcar': 50 };
 
-    // ---------- RECETAS PREDEFINIDAS (6 recetas) ----------
+    // ---------- RECETAS PREDEFINIDAS (12 recetas) ----------
     const RECETAS_PREDEF = [
-      { // Catalinas → Bolsas 1k
+      { // Catalinas
         id: 'catalinas', nombre: 'Catalinas', unidadProduccion: 'bandejas', unidadesPorProduccion: 24,
         ingredientes: [
           { nombre: 'Harina', cantidad: 45 / 70, unidad: 'kg' },
@@ -456,13 +350,10 @@
           tipo: 'compuesto', paquete: { nombre: 'Paquete Catalinas 1kg', unidadesPorPaquete: 10 }, 
           suelto: { nombre: 'Catalinas sueltas (unidad)' }, insumoEmpaque: { nombre: 'Bolsas 1k', cantidadPorPaquete: 1 } 
         },
-        infoAdicional: '70 bandejas = 1680 catalinas (168 paquetes). Gasto exacto: 45kg harina, 30kg azúcar, 1kg manteca, 1kg bicarbonato, 200g Micovan.'
+        infoAdicional: '70 bandejas = 1680 catalinas (168 paquetes).'
       },
-      { // Polvorosas → Bolsas 1k
-        id: 'polvorosas',
-        nombre: 'Polvorosas blancas',
-        unidadProduccion: 'latas',
-        unidadesPorProduccion: 1600 / 66.6,
+      { // Polvorosas
+        id: 'polvorosas', nombre: 'Polvorosas blancas', unidadProduccion: 'latas', unidadesPorProduccion: 1600 / 66.6,
         ingredientes: [
           { nombre: 'Harina', cantidad: 45 / 66.6, unidad: 'kg' },
           { nombre: 'Azúcar', cantidad: 25 / 66.6, unidad: 'kg' },
@@ -470,19 +361,11 @@
           { nombre: 'Manteca', cantidad: 1.5 / 66.6, unidad: 'kg' },
           { nombre: 'Micovan', cantidad: 0.2 / 66.6, unidad: 'kg' }
         ],
-        productoResultante: {
-          tipo: 'compuesto',
-          paquete: { nombre: 'Paquete Polvorosas 1kg', unidadesPorPaquete: 10 },
-          suelto: { nombre: 'Polvorosas sueltas (unidad)' },
-          insumoEmpaque: { nombre: 'Bolsas 1k', cantidadPorPaquete: 1 }
-        },
+        productoResultante: { tipo: 'compuesto', paquete: { nombre: 'Paquete Polvorosas 1kg', unidadesPorPaquete: 10 }, suelto: { nombre: 'Polvorosas sueltas (unidad)' }, insumoEmpaque: { nombre: 'Bolsas 1k', cantidadPorPaquete: 1 } },
         infoAdicional: '66.6 latas por saco de 45kg harina. 1 saco = 1600 unidades = 160 paquetes.'
       },
-      { // Cortaos → Bolsas 1k
-        id: 'cortaos',
-        nombre: 'Cortaos',
-        unidadProduccion: 'bandejas',
-        unidadesPorProduccion: 84,
+      { // Cortaos
+        id: 'cortaos', nombre: 'Cortaos', unidadProduccion: 'bandejas', unidadesPorProduccion: 84,
         ingredientes: [
           { nombre: 'Harina', cantidad: 45 / 20, unidad: 'kg' },
           { nombre: 'Azúcar', cantidad: 30 / 20, unidad: 'kg' },
@@ -491,19 +374,11 @@
           { nombre: 'Micovan', cantidad: 0.2 / 20, unidad: 'kg' },
           { nombre: 'Esencias vainilla y anís', cantidad: 0.2 / 20, unidad: 'kg' }
         ],
-        productoResultante: {
-          tipo: 'compuesto',
-          paquete: { nombre: 'Paquete Cortaos 1kg', unidadesPorPaquete: 10 },
-          suelto: { nombre: 'Cortaos sueltas (unidad)' },
-          insumoEmpaque: { nombre: 'Bolsas 1k', cantidadPorPaquete: 1 }
-        },
+        productoResultante: { tipo: 'compuesto', paquete: { nombre: 'Paquete Cortaos 1kg', unidadesPorPaquete: 10 }, suelto: { nombre: 'Cortaos sueltas (unidad)' }, insumoEmpaque: { nombre: 'Bolsas 1k', cantidadPorPaquete: 1 } },
         infoAdicional: '20 bandejas por saco de 45kg harina. Cada bandeja = 84 unidades. Paquetes de 10.'
       },
-      { // Catalinas pequeñas → Bolsas 1k
-        id: 'catalinas_pequenas',
-        nombre: 'Catalinas pequeñas',
-        unidadProduccion: 'bandejas',
-        unidadesPorProduccion: 48,
+      { // Catalinas pequeñas
+        id: 'catalinas_pequenas', nombre: 'Catalinas pequeñas', unidadProduccion: 'bandejas', unidadesPorProduccion: 48,
         ingredientes: [
           { nombre: 'Harina', cantidad: 45 / 90, unidad: 'kg' },
           { nombre: 'Azúcar', cantidad: 30 / 90, unidad: 'kg' },
@@ -511,38 +386,22 @@
           { nombre: 'Manteca', cantidad: 1 / 90, unidad: 'kg' },
           { nombre: 'Micovan', cantidad: 0.2 / 90, unidad: 'kg' }
         ],
-        productoResultante: {
-          tipo: 'compuesto',
-          paquete: { nombre: 'Paquete Catalinas pequeñas 1kg', unidadesPorPaquete: 24 },
-          suelto: { nombre: 'Catalinas pequeñas sueltas' },
-          insumoEmpaque: { nombre: 'Bolsas 1k', cantidadPorPaquete: 1 }
-        },
-        infoAdicional: '90 bandejas por saco de 45kg harina. 1 saco = 4320 unidades = 180 paquetes (24 unid/paquete).'
+        productoResultante: { tipo: 'compuesto', paquete: { nombre: 'Paquete Catalinas pequeñas 1kg', unidadesPorPaquete: 24 }, suelto: { nombre: 'Catalinas pequeñas sueltas' }, insumoEmpaque: { nombre: 'Bolsas 1k', cantidadPorPaquete: 1 } },
+        infoAdicional: '90 bandejas por saco. Paquetes de 24 unidades.'
       },
-      { // Roscas pequeñas → Bolsas 24x60
-        id: 'roscas_pequenas',
-        nombre: 'Roscas pequeñas',
-        unidadProduccion: 'latas',
-        unidadesPorProduccion: 35,
+      { // Roscas pequeñas
+        id: 'roscas_pequenas', nombre: 'Roscas pequeñas', unidadProduccion: 'latas', unidadesPorProduccion: 35,
         ingredientes: [
           { nombre: 'Harina', cantidad: 45 / 113, unidad: 'kg' },
           { nombre: 'Azúcar', cantidad: 11 / 113, unidad: 'kg' },
           { nombre: 'Manteca', cantidad: 0.6 / 113, unidad: 'kg' },
           { nombre: 'Anís en granos', cantidad: 0.1 / 113, unidad: 'kg' }
         ],
-        productoResultante: {
-          tipo: 'compuesto',
-          paquete: { nombre: 'Paquete Roscas pequeñas 1kg', unidadesPorPaquete: 24 },
-          suelto: { nombre: 'Roscas pequeñas sueltas' },
-          insumoEmpaque: { nombre: 'Bolsas 24x60', cantidadPorPaquete: 1 }
-        },
-        infoAdicional: '113 latas por saco de 45kg harina. Cada lata = 35 unidades. Paquetes de 24 unidades.'
+        productoResultante: { tipo: 'compuesto', paquete: { nombre: 'Paquete Roscas pequeñas 1kg', unidadesPorPaquete: 24 }, suelto: { nombre: 'Roscas pequeñas sueltas' }, insumoEmpaque: { nombre: 'Bolsas 24x60', cantidadPorPaquete: 1 } },
+        infoAdicional: '113 latas por saco de 45kg harina. Paquetes de 24 unidades.'
       },
-      { // Pan andino → Bolsas 22x60
-        id: 'pan_andino',
-        nombre: 'Pan andino',
-        unidadProduccion: 'bandejas',
-        unidadesPorProduccion: 5,
+      { // Pan andino
+        id: 'pan_andino', nombre: 'Pan andino', unidadProduccion: 'bandejas', unidadesPorProduccion: 5,
         ingredientes: [
           { nombre: 'Harina', cantidad: 45 / 60, unidad: 'kg' },
           { nombre: 'Azúcar', cantidad: 11 / 60, unidad: 'kg' },
@@ -550,13 +409,86 @@
           { nombre: 'Levadura', cantidad: 0.1 / 60, unidad: 'kg' },
           { nombre: 'Micovan', cantidad: 0.25 / 60, unidad: 'kg' }
         ],
-        productoResultante: {
-          tipo: 'compuesto',
-          paquete: { nombre: 'Paquete Pan andino 1kg', unidadesPorPaquete: 2 },
-          suelto: { nombre: 'Pan andino sueltas' },
-          insumoEmpaque: { nombre: 'Bolsas 22x60', cantidadPorPaquete: 1 }
-        },
-        infoAdicional: '60 bandejas por saco de 45kg harina. Cada bandeja = 5 panes. Paquetes de 2 panes.'
+        productoResultante: { tipo: 'compuesto', paquete: { nombre: 'Paquete Pan andino 1kg', unidadesPorPaquete: 2 }, suelto: { nombre: 'Pan andino sueltas' }, insumoEmpaque: { nombre: 'Bolsas 22x60', cantidadPorPaquete: 1 } },
+        infoAdicional: '60 bandejas por saco. Paquetes de 2 panes.'
+      },
+      { // Pan de guayaba
+        id: 'pan_guayaba', nombre: 'Pan de guayaba', unidadProduccion: 'bandejas', unidadesPorProduccion: 28,
+        ingredientes: [
+          { nombre: 'Harina', cantidad: 45 * 28 / 2000, unidad: 'kg' },
+          { nombre: 'Azúcar', cantidad: 11 * 28 / 2000, unidad: 'kg' },
+          { nombre: 'Micovan', cantidad: 0.25 * 28 / 2000, unidad: 'kg' },
+          { nombre: 'Manteca', cantidad: 1 * 28 / 2000, unidad: 'kg' },
+          { nombre: 'Guayaba', cantidad: 12 * 28 / 2000, unidad: 'kg' },
+          { nombre: 'Sabor vainilla', cantidad: 0.2 * 28 / 2000, unidad: 'kg' },
+          { nombre: 'Sal', cantidad: 0.3 * 28 / 2000, unidad: 'kg' }
+        ],
+        productoResultante: { tipo: 'compuesto', paquete: { nombre: 'Paquete Pan de guayaba 1kg', unidadesPorPaquete: 10 }, suelto: { nombre: 'Pan de guayaba sueltas' }, insumoEmpaque: { nombre: 'Bolsas 20x50', cantidadPorPaquete: 1 } },
+        infoAdicional: '71.4 bandejas por saco. Paquetes de 10 unidades.'
+      },
+      { // Pan salado
+        id: 'pan_salado', nombre: 'Pan salado', unidadProduccion: 'bandejas', unidadesPorProduccion: 12,
+        ingredientes: [
+          { nombre: 'Harina', cantidad: 45 / 49, unidad: 'kg' },
+          { nombre: 'Azúcar', cantidad: 2 / 49, unidad: 'kg' },
+          { nombre: 'Sal', cantidad: 1 / 49, unidad: 'kg' },
+          { nombre: 'Manteca', cantidad: 2 / 49, unidad: 'kg' },
+          { nombre: 'Sabor vainilla', cantidad: 0.2 / 49, unidad: 'kg' },
+          { nombre: 'Micovan', cantidad: 0.25 / 49, unidad: 'kg' }
+        ],
+        productoResultante: { tipo: 'compuesto', paquete: { nombre: 'Paquete Pan salado 1kg', unidadesPorPaquete: 5 }, suelto: { nombre: 'Pan salado sueltas' }, insumoEmpaque: { nombre: 'Bolsas canilla 3', cantidadPorPaquete: 1 } },
+        infoAdicional: '49 bandejas por saco. Paquetes de 5 unidades.'
+      },
+      { // Pan francés
+        id: 'pan_frances', nombre: 'Pan francés', unidadProduccion: 'bandejas', unidadesPorProduccion: 32,
+        ingredientes: [
+          { nombre: 'Harina', cantidad: 45 / 53, unidad: 'kg' },
+          { nombre: 'Azúcar', cantidad: 2 / 53, unidad: 'kg' },
+          { nombre: 'Sal', cantidad: 1 / 53, unidad: 'kg' },
+          { nombre: 'Manteca', cantidad: 2 / 53, unidad: 'kg' },
+          { nombre: 'Sabor vainilla', cantidad: 0.2 / 53, unidad: 'kg' },
+          { nombre: 'Micovan', cantidad: 0.25 / 53, unidad: 'kg' }
+        ],
+        productoResultante: { tipo: 'compuesto', paquete: { nombre: 'Paquete Pan francés 1kg', unidadesPorPaquete: 14 }, suelto: { nombre: 'Pan francés sueltas' }, insumoEmpaque: { nombre: 'Bolsas canilla 3', cantidadPorPaquete: 1 } },
+        infoAdicional: '53 bandejas por saco. Paquetes de 14 unidades.'
+      },
+      { // Pan siciliano
+        id: 'pan_siciliano', nombre: 'Pan siciliano', unidadProduccion: 'bandejas', unidadesPorProduccion: 8,
+        ingredientes: [
+          { nombre: 'Harina', cantidad: 45 / 59, unidad: 'kg' },
+          { nombre: 'Azúcar', cantidad: 2 / 59, unidad: 'kg' },
+          { nombre: 'Sal', cantidad: 1 / 59, unidad: 'kg' },
+          { nombre: 'Manteca', cantidad: 2 / 59, unidad: 'kg' },
+          { nombre: 'Sabor vainilla', cantidad: 0.2 / 59, unidad: 'kg' },
+          { nombre: 'Micovan', cantidad: 0.25 / 59, unidad: 'kg' }
+        ],
+        productoResultante: { tipo: 'compuesto', paquete: { nombre: 'Paquete Pan siciliano 1kg', unidadesPorPaquete: 4 }, suelto: { nombre: 'Pan siciliano sueltas' }, insumoEmpaque: { nombre: 'Bolsas canilla 3', cantidadPorPaquete: 1 } },
+        infoAdicional: '59 bandejas por saco. Paquetes de 4 unidades.'
+      },
+      { // Pan campesino
+        id: 'pan_campesino', nombre: 'Pan campesino', unidadProduccion: 'bandejas', unidadesPorProduccion: 5,
+        ingredientes: [
+          { nombre: 'Harina', cantidad: 45 / 52.6, unidad: 'kg' },
+          { nombre: 'Azúcar', cantidad: 2 / 52.6, unidad: 'kg' },
+          { nombre: 'Sal', cantidad: 1 / 52.6, unidad: 'kg' },
+          { nombre: 'Manteca', cantidad: 2 / 52.6, unidad: 'kg' },
+          { nombre: 'Sabor vainilla', cantidad: 0.2 / 52.6, unidad: 'kg' },
+          { nombre: 'Micovan', cantidad: 0.25 / 52.6, unidad: 'kg' }
+        ],
+        productoResultante: { tipo: 'compuesto', paquete: { nombre: 'Paquete Pan campesino 1kg', unidadesPorPaquete: 2 }, suelto: { nombre: 'Pan campesino sueltas' }, insumoEmpaque: { nombre: 'Bolsas canilla 3', cantidadPorPaquete: 1 } },
+        infoAdicional: '52.6 bandejas por saco. Paquetes de 2 unidades.'
+      },
+      { // Lenguas (AHORA CON LEVADURA)
+        id: 'lenguas', nombre: 'Lenguas', unidadProduccion: 'latas', unidadesPorProduccion: 14,
+        ingredientes: [
+          { nombre: 'Harina', cantidad: 45 / 121, unidad: 'kg' },
+          { nombre: 'Azúcar', cantidad: 12 / 121, unidad: 'kg' },
+          { nombre: 'Manteca', cantidad: 0.5 / 121, unidad: 'kg' },
+          { nombre: 'Esencias vainilla y anís', cantidad: 0.2 / 121, unidad: 'kg' },
+          { nombre: 'Levadura', cantidad: 0.2 / 121, unidad: 'kg' }  // 200 g agregados
+        ],
+        productoResultante: { tipo: 'compuesto', paquete: { nombre: 'Paquete Lenguas 1kg', unidadesPorPaquete: 10 }, suelto: { nombre: 'Lenguas sueltas' }, insumoEmpaque: { nombre: 'Bolsas 22x60', cantidadPorPaquete: 1 } },
+        infoAdicional: '121 latas por saco. Paquetes de 10 unidades.'
       }
     ];
 
@@ -606,7 +538,7 @@
     const tabs = document.querySelectorAll('.tab');
     const sections = document.querySelectorAll('.section');
 
-    // DOM NUEVO MODAL INGRESO
+    // DOM MODAL INGRESO
     const modalIngreso = document.getElementById('modal-ingreso');
     const cerrarModalIngresoBtn = document.getElementById('cerrar-modal-ingreso');
     const tituloModalIngreso = document.getElementById('titulo-modal-ingreso');
@@ -633,15 +565,9 @@
       localStorage.setItem('almacen_recetas', JSON.stringify(recetas));
     }
 
-    // ---------- MIGRACIÓN AUTOMÁTICA DE NOMBRES DE BOLSAS ----------
     function migrarNombresBolsas() {
-      // Renombrar producto "Bolsas 1k 22x60" → "Bolsas 1k" preservando cantidad
       const bolsaVieja = productos.find(p => p.nombre === 'Bolsas 1k 22x60');
-      if (bolsaVieja) {
-        bolsaVieja.nombre = 'Bolsas 1k';
-      }
-
-      // Corregir insumoEmpaque en recetas predefinidas existentes
+      if (bolsaVieja) bolsaVieja.nombre = 'Bolsas 1k';
       const idsPredefinidos = ['catalinas', 'polvorosas', 'cortaos', 'catalinas_pequenas'];
       recetas.forEach(r => {
         if (idsPredefinidos.includes(r.id) && r.productoResultante?.insumoEmpaque?.nombre === 'Bolsas 1k 22x60') {
@@ -652,24 +578,26 @@
 
     function asegurarRecetasYProductos() {
       RECETAS_PREDEF.forEach(recetaPre => {
-        if (!recetas.some(r => r.id === recetaPre.id)) {
-          recetas.push(recetaPre);
-        }
+        if (!recetas.some(r => r.id === recetaPre.id)) recetas.push(recetaPre);
       });
-
       const claves = [
-        'Bolsas 1k', 'Bolsas 22x60', 'Bolsas 24x60',
+        'Bolsas 1k', 'Bolsas 22x60', 'Bolsas 24x60', 'Bolsas 20x50', 'Bolsas canilla 3',
+        'Sabor vainilla',
         'Catalinas sueltas (unidad)', 'Paquete Catalinas 1kg',
         'Paquete Polvorosas 1kg', 'Polvorosas sueltas (unidad)',
         'Paquete Cortaos 1kg', 'Cortaos sueltas (unidad)',
         'Paquete Catalinas pequeñas 1kg', 'Catalinas pequeñas sueltas',
         'Paquete Roscas pequeñas 1kg', 'Roscas pequeñas sueltas',
-        'Paquete Pan andino 1kg', 'Pan andino sueltas'
+        'Paquete Pan andino 1kg', 'Pan andino sueltas',
+        'Paquete Pan de guayaba 1kg', 'Pan de guayaba sueltas',
+        'Paquete Pan salado 1kg', 'Pan salado sueltas',
+        'Paquete Pan francés 1kg', 'Pan francés sueltas',
+        'Paquete Pan siciliano 1kg', 'Pan siciliano sueltas',
+        'Paquete Pan campesino 1kg', 'Pan campesino sueltas',
+        'Paquete Lenguas 1kg', 'Lenguas sueltas'
       ];
       claves.forEach(nom => {
-        if (!productos.some(p => p.nombre === nom)) {
-          productos.push({ nombre: nom, cantidad: 0, unidad: 'unidades' });
-        }
+        if (!productos.some(p => p.nombre === nom)) productos.push({ nombre: nom, cantidad: 0, unidad: 'unidades' });
       });
     }
 
@@ -678,16 +606,10 @@
       productos = prodGuard ? JSON.parse(prodGuard) : [...PRODUCTOS_INICIALES];
       const recetasGuard = localStorage.getItem('almacen_recetas');
       recetas = recetasGuard ? JSON.parse(recetasGuard) : [...RECETAS_PREDEF];
-      
-      // Aplicar migración de nombres antiguos
       migrarNombresBolsas();
-      // Luego asegurar recetas y productos
       asegurarRecetasYProductos();
-      
       const mapeo = { 'Ariana (Harina)': 'Harina', 'Mivovan variado': 'Micovan' };
       productos = productos.map(p => mapeo[p.nombre] ? { ...p, nombre: mapeo[p.nombre] } : p);
-      
-      // Guardar los cambios migrados para la próxima carga
       guardarDatos();
     }
 
@@ -716,7 +638,6 @@
       const cantidad = parseFloat(cantidadProduccionInput.value) || 1;
       labelCantidad.textContent = `Cantidad (${recetaActual.unidadProduccion}):`;
       infoAdicionalReceta.textContent = recetaActual.infoAdicional || '';
-      
       const totalUnidades = cantidad * recetaActual.unidadesPorProduccion;
       let resumen = `<i class="fas fa-cookie"></i> Total unidades: <strong>${totalUnidades.toFixed(2)}</strong>`;
       let paquetes = 0, sueltas = 0;
@@ -728,7 +649,6 @@
         resumen += `<br><i class="fas fa-cubes"></i> Unidades sueltas: <strong>${sueltas.toFixed(0)}</strong>`;
       }
       resumenProduccionDiv.innerHTML = resumen;
-      
       let html = `<div class="recipe-title">🧾 Ingredientes para ${cantidad} ${recetaActual.unidadProduccion}</div>`;
       recetaActual.ingredientes.forEach(ing => {
         const cantidadNecesaria = ing.cantidad * cantidad;
@@ -740,7 +660,6 @@
         html += `<div class="ingredient-row"><span>${insumo.nombre}</span> <strong>${paquetes} unidades</strong></div>`;
       }
       recetaDinamicaDiv.innerHTML = html;
-      
       if (recetaActual.productoResultante.tipo === 'compuesto') {
         cardConversion.style.display = 'block';
         const sueltoNom = recetaActual.productoResultante.suelto.nombre;
@@ -797,7 +716,7 @@
     }
 
     function actualizarEstadoIngredientes() {
-      const claves = ['Harina', 'Azúcar', 'Manteca', 'Micovan', 'Bicarbonato', 'Levadura', 'Polvo de hornear', 'Esencias vainilla y anís', 'Anís en granos', 'Bolsas 1k', 'Bolsas 22x60', 'Bolsas 24x60'];
+      const claves = ['Harina', 'Azúcar', 'Manteca', 'Micovan', 'Bicarbonato', 'Levadura', 'Polvo de hornear', 'Esencias vainilla y anís', 'Sabor vainilla', 'Guayaba', 'Sal', 'Bolsas 1k', 'Bolsas 22x60', 'Bolsas 24x60', 'Bolsas 20x50', 'Bolsas canilla 3'];
       const lineas = claves.map(nom => { const p = encontrarProducto(nom); return p ? `${nom}: ${p.cantidad} ${p.unidad}` : `${nom}: no encontrado`; });
       estadoIngredientesDiv.innerHTML = lineas.join('<br>');
     }
@@ -842,15 +761,12 @@
       const unidadesPorBase = parseFloat(recetaUnidadesPorBase.value);
       if (!unidadesPorBase || unidadesPorBase <= 0) { mostrarToast('Unidades por base inválidas', 1500); return; }
       if (ingredientesTemporales.length === 0) { mostrarToast('Agrega al menos un ingrediente', 1500); return; }
-      
       for (let ing of ingredientesTemporales) {
         if (!ing.nombre || ing.cantidad <= 0) { mostrarToast('Completa todos los ingredientes', 1500); return; }
       }
-      
       const id = 'receta_' + Date.now();
       const paqueteUnidades = recetaUnidadesPaquete.value ? parseInt(recetaUnidadesPaquete.value) : null;
       const bolsaSeleccionada = recetaBolsaSelect.value;
-      
       let productoResultante;
       if (paqueteUnidades && paqueteUnidades > 0) {
         const nombrePaquete = `Paquete ${nombre} ${paqueteUnidades}u`;
@@ -868,7 +784,6 @@
         if (!productos.some(p => p.nombre === nombreSuelto)) productos.push({ nombre: nombreSuelto, cantidad: 0, unidad: 'unidades' });
         productoResultante = { tipo: 'simple', suelto: { nombre: nombreSuelto } };
       }
-      
       const nuevaReceta = {
         id, nombre, unidadProduccion: unidad, unidadesPorProduccion: unidadesPorBase,
         ingredientes: ingredientesTemporales.map(ing => ({ ...ing })),
@@ -900,10 +815,8 @@
       if (!recetaActual) { mostrarToast('No hay receta seleccionada', 1500); return; }
       const cantidad = parseFloat(cantidadProduccionInput.value);
       if (isNaN(cantidad) || cantidad <= 0) { mostrarToast('Cantidad inválida', 1500); return; }
-      
       const receta = recetaActual;
       const totalUnidades = cantidad * receta.unidadesPorProduccion;
-      
       for (let ing of receta.ingredientes) {
         const prod = encontrarProducto(ing.nombre);
         if (!prod) { mostrarToast(`Producto "${ing.nombre}" no existe en inventario`, 2500); return; }
@@ -914,7 +827,6 @@
           return; 
         }
       }
-      
       let paquetes = 0, sueltas = totalUnidades;
       if (receta.productoResultante.tipo === 'compuesto') {
         const up = receta.productoResultante.paquete.unidadesPorPaquete;
@@ -926,7 +838,6 @@
           if (!prodIns || prodIns.cantidad < paquetes) { mostrarToast(`Faltan ${insumo.nombre} (${paquetes} unidades)`, 2000); return; }
         }
       }
-      
       for (let ing of receta.ingredientes) {
         const prod = encontrarProducto(ing.nombre);
         prod.cantidad -= convertirCantidad(ing.cantidad * cantidad, ing.unidad, prod.unidad);
@@ -935,7 +846,6 @@
         const ins = receta.productoResultante.insumoEmpaque;
         encontrarProducto(ins.nombre).cantidad -= paquetes;
       }
-      
       if (receta.productoResultante.tipo === 'compuesto') {
         let pPaq = encontrarProducto(receta.productoResultante.paquete.nombre);
         if (!pPaq) { pPaq = { nombre: receta.productoResultante.paquete.nombre, cantidad: 0, unidad: 'unidades' }; productos.push(pPaq); }
@@ -948,7 +858,6 @@
         if (!pSuel) { pSuel = { nombre: receta.productoResultante.suelto.nombre, cantidad: 0, unidad: 'unidades' }; productos.push(pSuel); }
         pSuel.cantidad += totalUnidades;
       }
-      
       guardarDatos();
       renderizarProductos(buscarInput.value);
       actualizarVistaReceta();
@@ -959,12 +868,10 @@
     function abrirModalIngreso(nombre) {
       prodEditando = encontrarProducto(nombre);
       if (!prodEditando) return;
-
       tituloModalIngreso.innerHTML = `✏️ Ajustar ${prodEditando.nombre}`;
       descModalIngreso.innerHTML = `Inventario actual: <strong>${prodEditando.cantidad.toFixed(2)} ${prodEditando.unidad}</strong>`;
       cantidadIngreso.value = '';
       accionIngresoSelect.value = 'sumar';
-
       if (nombre === 'Harina' || nombre === 'Azúcar') {
         opcionesSacosDiv.style.display = 'block';
         formaIngresoSelect.innerHTML = `
@@ -978,42 +885,25 @@
         formaIngresoSelect.innerHTML = `<option value="base">${prodEditando.unidad}</option>`;
         unidadIngresoLabel.textContent = prodEditando.unidad;
       }
-
       modalIngreso.classList.add('active');
     }
 
-    function cerrarModalIngreso() {
-      modalIngreso.classList.remove('active');
-      prodEditando = null;
-    }
+    function cerrarModalIngreso() { modalIngreso.classList.remove('active'); prodEditando = null; }
 
     formaIngresoSelect.addEventListener('change', (e) => {
-      if(e.target.value === 'sacos') {
-        unidadIngresoLabel.textContent = 'sacos';
-      } else if (e.target.value === 'kilos') {
-        unidadIngresoLabel.textContent = 'kg';
-      } else {
-        unidadIngresoLabel.textContent = prodEditando ? prodEditando.unidad : '';
-      }
+      if(e.target.value === 'sacos') { unidadIngresoLabel.textContent = 'sacos'; }
+      else if (e.target.value === 'kilos') { unidadIngresoLabel.textContent = 'kg'; }
+      else { unidadIngresoLabel.textContent = prodEditando ? prodEditando.unidad : ''; }
     });
 
     guardarIngresoBtn.addEventListener('click', () => {
       if(!prodEditando) return;
       const valor = parseFloat(cantidadIngreso.value);
-      
-      if (isNaN(valor) || valor < 0) {
-        mostrarToast('Ingresa una cantidad válida', 1500);
-        return;
-      }
-
+      if (isNaN(valor) || valor < 0) { mostrarToast('Ingresa una cantidad válida', 1500); return; }
       const forma = formaIngresoSelect.value;
       const accion = accionIngresoSelect.value;
       let cantidadKilosFinales = valor;
-
-      if (forma === 'sacos') {
-        cantidadKilosFinales = valor * PESO_POR_SACO[prodEditando.nombre];
-      }
-
+      if (forma === 'sacos') cantidadKilosFinales = valor * PESO_POR_SACO[prodEditando.nombre];
       if (accion === 'sumar') {
         prodEditando.cantidad += cantidadKilosFinales;
         mostrarToast(`➕ Sumado con éxito | Total: ${prodEditando.cantidad.toFixed(2)} ${prodEditando.unidad}`, 2500);
@@ -1021,7 +911,6 @@
         prodEditando.cantidad = cantidadKilosFinales;
         mostrarToast(`🔄 Inventario reemplazado | Nuevo total: ${prodEditando.cantidad.toFixed(2)} ${prodEditando.unidad}`, 2500);
       }
-
       guardarDatos();
       renderizarProductos(buscarInput.value);
       actualizarVistaReceta();
@@ -1034,14 +923,8 @@
       const cantidadStr = prompt(`Descontar ${prod.unidad} de ${prod.nombre} (Pérdida/Daño)`, "0");
       if (cantidadStr === null) return;
       const cantidad = parseFloat(cantidadStr.replace(',', '.'));
-      if (isNaN(cantidad) || cantidad <= 0) {
-        mostrarToast('Cantidad inválida', 1200);
-        return;
-      }
-      if (prod.cantidad < cantidad) {
-        mostrarToast('Stock insuficiente', 1500);
-        return;
-      }
+      if (isNaN(cantidad) || cantidad <= 0) { mostrarToast('Cantidad inválida', 1200); return; }
+      if (prod.cantidad < cantidad) { mostrarToast('Stock insuficiente', 1500); return; }
       prod.cantidad -= cantidad;
       guardarDatos();
       renderizarProductos('');
@@ -1056,14 +939,12 @@
         if (tab.dataset.tab === 'produccion') actualizarVistaReceta();
       }));
       buscarInput.addEventListener('input', e => renderizarProductos(e.target.value));
-      
       listaProductosEl.addEventListener('click', e => {
         const btn = e.target.closest('button'); if (!btn) return;
         const nombre = btn.dataset.nombre;
         if (btn.dataset.action === 'editar') abrirModalIngreso(nombre);
         else if (btn.dataset.action === 'descontar-rapido') descontarRapido(nombre);
       });
-      
       btnAjuste.addEventListener('click', () => {
         const nombre = productSelect.value; if (!nombre) return;
         const cantidad = parseFloat(cantidadAjuste.value); if (isNaN(cantidad) || cantidad<=0) return;
@@ -1105,19 +986,14 @@
         mostrarToast(`Vendido ${cantidad} ${nombre}`);
         cantidadVenta.value = 1;
       });
-      
       btnAgregarReceta.addEventListener('click', abrirModal);
       cerrarModal.addEventListener('click', cerrarModalFn);
       cancelarReceta.addEventListener('click', cerrarModalFn);
-      
       cerrarModalIngresoBtn.addEventListener('click', cerrarModalIngreso);
-
       agregarIngredienteBtn.addEventListener('click', agregarIngredienteTemporal);
       guardarRecetaBtn.addEventListener('click', guardarReceta);
-      
       modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) cerrarModalFn(); });
       modalIngreso.addEventListener('click', e => { if (e.target === modalIngreso) cerrarModalIngreso(); });
-      
       const btnEliminar = document.createElement('button');
       btnEliminar.className = 'icon-btn danger';
       btnEliminar.innerHTML = '<i class="fas fa-trash"></i>';
